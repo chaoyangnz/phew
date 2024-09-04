@@ -1,28 +1,40 @@
-export  type Config = ClassicConfig | ColumnConfig | SimpleConfig | CardConfig
+export type Config = RowConfig | ColumnConfig | SimpleConfig | CardConfig;
 
-export type ClassicConfig = {
-  layout: 'classic',
-  variation: 'single-line' | 'double-lines' | 'logo'
-  height: number
-}
+export type RowConfig = {
+  layout: 'row';
+  variation: 'single' | 'double' | 'logo';
+  height: number;
+  font?: {
+    color?: string
+  }
+};
 
 export type ColumnConfig = {
-  layout: 'column',
-  variation: 'landscape' | 'left-margin' | 'right-margin' | 'portrait'
-  blur: boolean
-}
+  layout: 'column';
+  variation: 'landscape' | 'left-margin' | 'right-margin' | 'portrait';
+  blur: boolean;
+  font?: {
+    color?: string
+  }
+};
 
 export type SimpleConfig = {
-  layout: 'simple',
-  variation: 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom'
-  offset: number
-}
+  layout: 'simple';
+  variation: 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom';
+  offset: number;
+  font?: {
+    color?: string
+  }
+};
 
 export type CardConfig = {
-  layout: 'card',
-  variation: 'logo-param' | 'logo' | 'param' | 'color'
-  border: number,
-  height: number
-  overlay: boolean
-}
-
+  layout: 'card';
+  variation: 'double' | 'logo' | 'single' | 'color';
+  border: number;
+  height: number;
+  overlay: boolean;
+  blur: boolean;
+  font?: {
+    color?: string
+  }
+};

@@ -1,6 +1,11 @@
-import { ClassicRenderer } from './classic';
+import { Config } from './config';
+import { CardRenderer } from './card';
+import { RowRenderer } from './row';
 
-new ClassicRenderer(
-  'E:/Photos/export/Z6L_1086_38086.JPG'
-  // 'E:/Photos/export/Z6L_1029.JPG'
-).render()
+export const render = async (config: Config, file: string, dest: string) => {
+  switch (config.layout) {
+    case 'row': await new RowRenderer(file, config as never).render(dest); break;
+    case 'card': await new CardRenderer(file, config as never).render(dest); break;
+    default: console.log('not implemented')
+  }
+}
