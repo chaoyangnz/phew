@@ -1,11 +1,12 @@
 import { program } from 'commander';
 import { render } from './index';
+import path from 'path';
 
 program
   .command('row')
   .description('row layout')
   .requiredOption('-i, --input <string>', 'input photo')
-  .requiredOption('-o, --output <string>', 'output photo')
+  .option('-o, --output <string>', 'output photo')
   .requiredOption('--variation <string>', 'variation: single, double, logo', 'double')
   .option('--height <number>', 'height of watermark')
   .option('--background <string>', 'background color')
@@ -20,14 +21,14 @@ program
       font: {
         color: fontColor
       }
-    }, input, output);
+    }, input, output || path.dirname(input));
   })
 
 program
   .command('card')
   .description('card layout')
   .requiredOption('-i, --input <string>', 'input photo')
-  .requiredOption('-o, --output <string>', 'output photo')
+  .option('-o, --output <string>', 'output photo')
   .requiredOption('--variation <string>', 'variation: single, double, logo', 'double')
   .option('--height <number>', 'height of watermark')
   .option('--border <number>', 'border of photo')
@@ -46,7 +47,7 @@ program
       },
       border,
       overlay,
-    }, input, output);
+    }, input, output || path.dirname(input));
   })
 
 program.parse(process.argv)

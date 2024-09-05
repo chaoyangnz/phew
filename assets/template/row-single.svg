@@ -1,12 +1,11 @@
 <svg width="{{width}}" height="{{height}}" font-family="Arial, Helvetica, sans-serif">
     <style>
         .text {
-            font-size: 5em;
+            font-size: 50;
             font-weight: bold;
             fill: {{font.color}};
             text-anchor: left;
         }
-
 
         .logo {
             width: 180;
@@ -19,7 +18,7 @@
         }
 
         .right {
-            transform: translate({{add width -800}}, 0);
+            transform: translate({{rightAlignPosition width exposure.formatted 26 0 100}}, 0);
         }
     </style>
 

@@ -958,7 +958,7 @@ var require_command = __commonJS({
   "node_modules/commander/lib/command.js"(exports2) {
     var EventEmitter = require("node:events").EventEmitter;
     var childProcess = require("node:child_process");
-    var path2 = require("node:path");
+    var path3 = require("node:path");
     var fs = require("node:fs");
     var process2 = require("node:process");
     var { Argument: Argument2, humanReadableArgName } = require_argument();
@@ -1891,9 +1891,9 @@ Expecting one of '${allowedValues.join("', '")}'`);
         let launchWithNode = false;
         const sourceExt = [".js", ".ts", ".tsx", ".mjs", ".cjs"];
         function findFile(baseDir, baseName) {
-          const localBin = path2.resolve(baseDir, baseName);
+          const localBin = path3.resolve(baseDir, baseName);
           if (fs.existsSync(localBin)) return localBin;
-          if (sourceExt.includes(path2.extname(baseName))) return void 0;
+          if (sourceExt.includes(path3.extname(baseName))) return void 0;
           const foundExt = sourceExt.find(
             (ext) => fs.existsSync(`${localBin}${ext}`)
           );
@@ -1911,17 +1911,17 @@ Expecting one of '${allowedValues.join("', '")}'`);
           } catch (err) {
             resolvedScriptPath = this._scriptPath;
           }
-          executableDir = path2.resolve(
-            path2.dirname(resolvedScriptPath),
+          executableDir = path3.resolve(
+            path3.dirname(resolvedScriptPath),
             executableDir
           );
         }
         if (executableDir) {
           let localFile = findFile(executableDir, executableFile);
           if (!localFile && !subcommand._executableFile && this._scriptPath) {
-            const legacyName = path2.basename(
+            const legacyName = path3.basename(
               this._scriptPath,
-              path2.extname(this._scriptPath)
+              path3.extname(this._scriptPath)
             );
             if (legacyName !== this._name) {
               localFile = findFile(
@@ -1932,7 +1932,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
           }
           executableFile = localFile || executableFile;
         }
-        launchWithNode = sourceExt.includes(path2.extname(executableFile));
+        launchWithNode = sourceExt.includes(path3.extname(executableFile));
         let proc;
         if (process2.platform !== "win32") {
           if (launchWithNode) {
@@ -2772,7 +2772,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
        * @return {Command}
        */
       nameFromFilename(filename) {
-        this._name = path2.basename(filename, path2.extname(filename));
+        this._name = path3.basename(filename, path3.extname(filename));
         return this;
       }
       /**
@@ -2786,9 +2786,9 @@ Expecting one of '${allowedValues.join("', '")}'`);
        * @param {string} [path]
        * @return {(string|null|Command)}
        */
-      executableDir(path3) {
-        if (path3 === void 0) return this._executableDir;
-        this._executableDir = path3;
+      executableDir(path4) {
+        if (path4 === void 0) return this._executableDir;
+        this._executableDir = path4;
         return this;
       }
       /**
@@ -3133,9 +3133,9 @@ var require_filesystem = __commonJS({
     "use strict";
     var fs = require("fs");
     var LDD_PATH = "/usr/bin/ldd";
-    var readFileSync = (path2) => fs.readFileSync(path2, "utf-8");
-    var readFile = (path2) => new Promise((resolve, reject) => {
-      fs.readFile(path2, "utf-8", (err, data) => {
+    var readFileSync = (path3) => fs.readFileSync(path3, "utf-8");
+    var readFile = (path3) => new Promise((resolve, reject) => {
+      fs.readFile(path3, "utf-8", (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -4911,9 +4911,9 @@ var require_sharp = __commonJS({
     ];
     var sharp2;
     var errors = [];
-    for (const path2 of paths) {
+    for (const path3 of paths) {
       try {
-        sharp2 = require(path2);
+        sharp2 = require(path3);
         break;
       } catch (err) {
         errors.push(err);
@@ -6318,15 +6318,15 @@ var require_route = __commonJS({
       };
     }
     function wrapConversion(toModel, graph) {
-      const path2 = [graph[toModel].parent, toModel];
+      const path3 = [graph[toModel].parent, toModel];
       let fn = conversions[graph[toModel].parent][toModel];
       let cur = graph[toModel].parent;
       while (graph[cur].parent) {
-        path2.unshift(graph[cur].parent);
+        path3.unshift(graph[cur].parent);
         fn = link(conversions[graph[cur].parent][cur], fn);
         cur = graph[cur].parent;
       }
-      fn.conversion = path2;
+      fn.conversion = path3;
       return fn;
     }
     module2.exports = function(fromModel) {
@@ -8221,7 +8221,7 @@ var require_channel = __commonJS({
 var require_output = __commonJS({
   "node_modules/sharp/lib/output.js"(exports2, module2) {
     "use strict";
-    var path2 = require("node:path");
+    var path3 = require("node:path");
     var is = require_is();
     var sharp2 = require_sharp();
     var formats = /* @__PURE__ */ new Map([
@@ -8252,9 +8252,9 @@ var require_output = __commonJS({
       let err;
       if (!is.string(fileOut)) {
         err = new Error("Missing output file path");
-      } else if (is.string(this.options.input.file) && path2.resolve(this.options.input.file) === path2.resolve(fileOut)) {
+      } else if (is.string(this.options.input.file) && path3.resolve(this.options.input.file) === path3.resolve(fileOut)) {
         err = new Error("Cannot use same file for input and output");
-      } else if (jp2Regex.test(path2.extname(fileOut)) && !this.constructor.format.jp2k.output.file) {
+      } else if (jp2Regex.test(path3.extname(fileOut)) && !this.constructor.format.jp2k.output.file) {
         err = errJp2Save();
       }
       if (err) {
@@ -10949,13 +10949,13 @@ var require_ast = __commonJS({
         helperExpression: function helperExpression(node) {
           return node.type === "SubExpression" || (node.type === "MustacheStatement" || node.type === "BlockStatement") && !!(node.params && node.params.length || node.hash);
         },
-        scopedId: function scopedId(path2) {
-          return /^\.|this\b/.test(path2.original);
+        scopedId: function scopedId(path3) {
+          return /^\.|this\b/.test(path3.original);
         },
         // an ID is simple if it only has one part, and that part is not
         // `..` or `this`.
-        simpleId: function simpleId(path2) {
-          return path2.parts.length === 1 && !AST.helpers.scopedId(path2) && !path2.depth;
+        simpleId: function simpleId(path3) {
+          return path3.parts.length === 1 && !AST.helpers.scopedId(path3) && !path3.depth;
         }
       }
     };
@@ -12025,12 +12025,12 @@ var require_helpers2 = __commonJS({
         loc
       };
     }
-    function prepareMustache(path2, params, hash, open, strip, locInfo) {
+    function prepareMustache(path3, params, hash, open, strip, locInfo) {
       var escapeFlag = open.charAt(3) || open.charAt(2), escaped = escapeFlag !== "{" && escapeFlag !== "&";
       var decorator = /\*/.test(open);
       return {
         type: decorator ? "Decorator" : "MustacheStatement",
-        path: path2,
+        path: path3,
         params,
         hash,
         escaped,
@@ -12300,9 +12300,9 @@ var require_compiler = __commonJS({
       },
       DecoratorBlock: function DecoratorBlock(decorator) {
         var program2 = decorator.program && this.compileProgram(decorator.program);
-        var params = this.setupFullMustacheParams(decorator, program2, void 0), path2 = decorator.path;
+        var params = this.setupFullMustacheParams(decorator, program2, void 0), path3 = decorator.path;
         this.useDecorators = true;
-        this.opcode("registerDecorator", params.length, path2.original);
+        this.opcode("registerDecorator", params.length, path3.original);
       },
       PartialStatement: function PartialStatement(partial) {
         this.usePartial = true;
@@ -12366,46 +12366,46 @@ var require_compiler = __commonJS({
         }
       },
       ambiguousSexpr: function ambiguousSexpr(sexpr, program2, inverse) {
-        var path2 = sexpr.path, name = path2.parts[0], isBlock = program2 != null || inverse != null;
-        this.opcode("getContext", path2.depth);
+        var path3 = sexpr.path, name = path3.parts[0], isBlock = program2 != null || inverse != null;
+        this.opcode("getContext", path3.depth);
         this.opcode("pushProgram", program2);
         this.opcode("pushProgram", inverse);
-        path2.strict = true;
-        this.accept(path2);
+        path3.strict = true;
+        this.accept(path3);
         this.opcode("invokeAmbiguous", name, isBlock);
       },
       simpleSexpr: function simpleSexpr(sexpr) {
-        var path2 = sexpr.path;
-        path2.strict = true;
-        this.accept(path2);
+        var path3 = sexpr.path;
+        path3.strict = true;
+        this.accept(path3);
         this.opcode("resolvePossibleLambda");
       },
       helperSexpr: function helperSexpr(sexpr, program2, inverse) {
-        var params = this.setupFullMustacheParams(sexpr, program2, inverse), path2 = sexpr.path, name = path2.parts[0];
+        var params = this.setupFullMustacheParams(sexpr, program2, inverse), path3 = sexpr.path, name = path3.parts[0];
         if (this.options.knownHelpers[name]) {
           this.opcode("invokeKnownHelper", params.length, name);
         } else if (this.options.knownHelpersOnly) {
           throw new _exception2["default"]("You specified knownHelpersOnly, but used the unknown helper " + name, sexpr);
         } else {
-          path2.strict = true;
-          path2.falsy = true;
-          this.accept(path2);
-          this.opcode("invokeHelper", params.length, path2.original, _ast2["default"].helpers.simpleId(path2));
+          path3.strict = true;
+          path3.falsy = true;
+          this.accept(path3);
+          this.opcode("invokeHelper", params.length, path3.original, _ast2["default"].helpers.simpleId(path3));
         }
       },
-      PathExpression: function PathExpression(path2) {
-        this.addDepth(path2.depth);
-        this.opcode("getContext", path2.depth);
-        var name = path2.parts[0], scoped = _ast2["default"].helpers.scopedId(path2), blockParamId = !path2.depth && !scoped && this.blockParamIndex(name);
+      PathExpression: function PathExpression(path3) {
+        this.addDepth(path3.depth);
+        this.opcode("getContext", path3.depth);
+        var name = path3.parts[0], scoped = _ast2["default"].helpers.scopedId(path3), blockParamId = !path3.depth && !scoped && this.blockParamIndex(name);
         if (blockParamId) {
-          this.opcode("lookupBlockParam", blockParamId, path2.parts);
+          this.opcode("lookupBlockParam", blockParamId, path3.parts);
         } else if (!name) {
           this.opcode("pushContext");
-        } else if (path2.data) {
+        } else if (path3.data) {
           this.options.data = true;
-          this.opcode("lookupData", path2.depth, path2.parts, path2.strict);
+          this.opcode("lookupData", path3.depth, path3.parts, path3.strict);
         } else {
-          this.opcode("lookupOnContext", path2.parts, path2.falsy, path2.strict, scoped);
+          this.opcode("lookupOnContext", path3.parts, path3.falsy, path3.strict, scoped);
         }
       },
       StringLiteral: function StringLiteral(string) {
@@ -12755,16 +12755,16 @@ var require_util = __commonJS({
     }
     exports2.urlGenerate = urlGenerate;
     function normalize(aPath) {
-      var path2 = aPath;
+      var path3 = aPath;
       var url = urlParse(aPath);
       if (url) {
         if (!url.path) {
           return aPath;
         }
-        path2 = url.path;
+        path3 = url.path;
       }
-      var isAbsolute = exports2.isAbsolute(path2);
-      var parts = path2.split(/\/+/);
+      var isAbsolute = exports2.isAbsolute(path3);
+      var parts = path3.split(/\/+/);
       for (var part, up = 0, i = parts.length - 1; i >= 0; i--) {
         part = parts[i];
         if (part === ".") {
@@ -12781,15 +12781,15 @@ var require_util = __commonJS({
           }
         }
       }
-      path2 = parts.join("/");
-      if (path2 === "") {
-        path2 = isAbsolute ? "/" : ".";
+      path3 = parts.join("/");
+      if (path3 === "") {
+        path3 = isAbsolute ? "/" : ".";
       }
       if (url) {
-        url.path = path2;
+        url.path = path3;
         return urlGenerate(url);
       }
-      return path2;
+      return path3;
     }
     exports2.normalize = normalize;
     function join(aRoot, aPath) {
@@ -15570,8 +15570,8 @@ var require_printer = __commonJS({
       return this.accept(sexpr.path) + " " + params + hash;
     };
     PrintVisitor.prototype.PathExpression = function(id) {
-      var path2 = id.parts.join("/");
-      return (id.data ? "@" : "") + "PATH:" + path2;
+      var path3 = id.parts.join("/");
+      return (id.data ? "@" : "") + "PATH:" + path3;
     };
     PrintVisitor.prototype.StringLiteral = function(string) {
       return '"' + string.value + '"';
@@ -17122,11 +17122,11 @@ var require_lodash = __commonJS({
             return isFunction(object[key]);
           });
         }
-        function baseGet(object, path2) {
-          path2 = castPath(path2, object);
-          var index = 0, length = path2.length;
+        function baseGet(object, path3) {
+          path3 = castPath(path3, object);
+          var index = 0, length = path3.length;
           while (object != null && index < length) {
-            object = object[toKey(path2[index++])];
+            object = object[toKey(path3[index++])];
           }
           return index && index == length ? object : undefined2;
         }
@@ -17190,10 +17190,10 @@ var require_lodash = __commonJS({
           });
           return accumulator;
         }
-        function baseInvoke(object, path2, args) {
-          path2 = castPath(path2, object);
-          object = parent(object, path2);
-          var func = object == null ? object : object[toKey(last(path2))];
+        function baseInvoke(object, path3, args) {
+          path3 = castPath(path3, object);
+          object = parent(object, path3);
+          var func = object == null ? object : object[toKey(last(path3))];
           return func == null ? undefined2 : apply(func, object, args);
         }
         function baseIsArguments(value) {
@@ -17349,13 +17349,13 @@ var require_lodash = __commonJS({
             return object === source || baseIsMatch(object, source, matchData);
           };
         }
-        function baseMatchesProperty(path2, srcValue) {
-          if (isKey(path2) && isStrictComparable(srcValue)) {
-            return matchesStrictComparable(toKey(path2), srcValue);
+        function baseMatchesProperty(path3, srcValue) {
+          if (isKey(path3) && isStrictComparable(srcValue)) {
+            return matchesStrictComparable(toKey(path3), srcValue);
           }
           return function(object) {
-            var objValue = get(object, path2);
-            return objValue === undefined2 && objValue === srcValue ? hasIn(object, path2) : baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG);
+            var objValue = get(object, path3);
+            return objValue === undefined2 && objValue === srcValue ? hasIn(object, path3) : baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG);
           };
         }
         function baseMerge(object, source, srcIndex, customizer, stack) {
@@ -17452,23 +17452,23 @@ var require_lodash = __commonJS({
           });
         }
         function basePick(object, paths) {
-          return basePickBy(object, paths, function(value, path2) {
-            return hasIn(object, path2);
+          return basePickBy(object, paths, function(value, path3) {
+            return hasIn(object, path3);
           });
         }
         function basePickBy(object, paths, predicate) {
           var index = -1, length = paths.length, result2 = {};
           while (++index < length) {
-            var path2 = paths[index], value = baseGet(object, path2);
-            if (predicate(value, path2)) {
-              baseSet(result2, castPath(path2, object), value);
+            var path3 = paths[index], value = baseGet(object, path3);
+            if (predicate(value, path3)) {
+              baseSet(result2, castPath(path3, object), value);
             }
           }
           return result2;
         }
-        function basePropertyDeep(path2) {
+        function basePropertyDeep(path3) {
           return function(object) {
-            return baseGet(object, path2);
+            return baseGet(object, path3);
           };
         }
         function basePullAll(array, values2, iteratee2, comparator) {
@@ -17542,14 +17542,14 @@ var require_lodash = __commonJS({
           var array = values(collection);
           return shuffleSelf(array, baseClamp(n, 0, array.length));
         }
-        function baseSet(object, path2, value, customizer) {
+        function baseSet(object, path3, value, customizer) {
           if (!isObject(object)) {
             return object;
           }
-          path2 = castPath(path2, object);
-          var index = -1, length = path2.length, lastIndex = length - 1, nested = object;
+          path3 = castPath(path3, object);
+          var index = -1, length = path3.length, lastIndex = length - 1, nested = object;
           while (nested != null && ++index < length) {
-            var key = toKey(path2[index]), newValue = value;
+            var key = toKey(path3[index]), newValue = value;
             if (key === "__proto__" || key === "constructor" || key === "prototype") {
               return object;
             }
@@ -17557,7 +17557,7 @@ var require_lodash = __commonJS({
               var objValue = nested[key];
               newValue = customizer ? customizer(objValue, key, nested) : undefined2;
               if (newValue === undefined2) {
-                newValue = isObject(objValue) ? objValue : isIndex(path2[index + 1]) ? [] : {};
+                newValue = isObject(objValue) ? objValue : isIndex(path3[index + 1]) ? [] : {};
               }
             }
             assignValue(nested, key, newValue);
@@ -17723,13 +17723,13 @@ var require_lodash = __commonJS({
             }
           return result2;
         }
-        function baseUnset(object, path2) {
-          path2 = castPath(path2, object);
-          object = parent(object, path2);
-          return object == null || delete object[toKey(last(path2))];
+        function baseUnset(object, path3) {
+          path3 = castPath(path3, object);
+          object = parent(object, path3);
+          return object == null || delete object[toKey(last(path3))];
         }
-        function baseUpdate(object, path2, updater, customizer) {
-          return baseSet(object, path2, updater(baseGet(object, path2)), customizer);
+        function baseUpdate(object, path3, updater, customizer) {
+          return baseSet(object, path3, updater(baseGet(object, path3)), customizer);
         }
         function baseWhile(array, predicate, isDrop, fromRight) {
           var length = array.length, index = fromRight ? length : -1;
@@ -18612,11 +18612,11 @@ var require_lodash = __commonJS({
           var match = source.match(reWrapDetails);
           return match ? match[1].split(reSplitDetails) : [];
         }
-        function hasPath(object, path2, hasFunc) {
-          path2 = castPath(path2, object);
-          var index = -1, length = path2.length, result2 = false;
+        function hasPath(object, path3, hasFunc) {
+          path3 = castPath(path3, object);
+          var index = -1, length = path3.length, result2 = false;
           while (++index < length) {
-            var key = toKey(path2[index]);
+            var key = toKey(path3[index]);
             if (!(result2 = object != null && hasFunc(object, key))) {
               break;
             }
@@ -18818,8 +18818,8 @@ var require_lodash = __commonJS({
             return apply(func, this, otherArgs);
           };
         }
-        function parent(object, path2) {
-          return path2.length < 2 ? object : baseGet(object, baseSlice(path2, 0, -1));
+        function parent(object, path3) {
+          return path3.length < 2 ? object : baseGet(object, baseSlice(path3, 0, -1));
         }
         function reorder(array, indexes) {
           var arrLength = array.length, length = nativeMin(indexes.length, arrLength), oldArray = copyArray(array);
@@ -19454,10 +19454,10 @@ var require_lodash = __commonJS({
           }
           return isString(collection) ? fromIndex <= length && collection.indexOf(value, fromIndex) > -1 : !!length && baseIndexOf(collection, value, fromIndex) > -1;
         }
-        var invokeMap = baseRest(function(collection, path2, args) {
-          var index = -1, isFunc = typeof path2 == "function", result2 = isArrayLike(collection) ? Array2(collection.length) : [];
+        var invokeMap = baseRest(function(collection, path3, args) {
+          var index = -1, isFunc = typeof path3 == "function", result2 = isArrayLike(collection) ? Array2(collection.length) : [];
           baseEach(collection, function(value) {
-            result2[++index] = isFunc ? apply(path2, value, args) : baseInvoke(value, path2, args);
+            result2[++index] = isFunc ? apply(path3, value, args) : baseInvoke(value, path3, args);
           });
           return result2;
         });
@@ -20109,15 +20109,15 @@ var require_lodash = __commonJS({
         function functionsIn(object) {
           return object == null ? [] : baseFunctions(object, keysIn(object));
         }
-        function get(object, path2, defaultValue) {
-          var result2 = object == null ? undefined2 : baseGet(object, path2);
+        function get(object, path3, defaultValue) {
+          var result2 = object == null ? undefined2 : baseGet(object, path3);
           return result2 === undefined2 ? defaultValue : result2;
         }
-        function has(object, path2) {
-          return object != null && hasPath(object, path2, baseHas);
+        function has(object, path3) {
+          return object != null && hasPath(object, path3, baseHas);
         }
-        function hasIn(object, path2) {
-          return object != null && hasPath(object, path2, baseHasIn);
+        function hasIn(object, path3) {
+          return object != null && hasPath(object, path3, baseHasIn);
         }
         var invert = createInverter(function(result2, value, key) {
           if (value != null && typeof value.toString != "function") {
@@ -20170,10 +20170,10 @@ var require_lodash = __commonJS({
             return result2;
           }
           var isDeep = false;
-          paths = arrayMap(paths, function(path2) {
-            path2 = castPath(path2, object);
-            isDeep || (isDeep = path2.length > 1);
-            return path2;
+          paths = arrayMap(paths, function(path3) {
+            path3 = castPath(path3, object);
+            isDeep || (isDeep = path3.length > 1);
+            return path3;
           });
           copyObject(object, getAllKeysIn(object), result2);
           if (isDeep) {
@@ -20199,19 +20199,19 @@ var require_lodash = __commonJS({
             return [prop];
           });
           predicate = getIteratee(predicate);
-          return basePickBy(object, props, function(value, path2) {
-            return predicate(value, path2[0]);
+          return basePickBy(object, props, function(value, path3) {
+            return predicate(value, path3[0]);
           });
         }
-        function result(object, path2, defaultValue) {
-          path2 = castPath(path2, object);
-          var index = -1, length = path2.length;
+        function result(object, path3, defaultValue) {
+          path3 = castPath(path3, object);
+          var index = -1, length = path3.length;
           if (!length) {
             length = 1;
             object = undefined2;
           }
           while (++index < length) {
-            var value = object == null ? undefined2 : object[toKey(path2[index])];
+            var value = object == null ? undefined2 : object[toKey(path3[index])];
             if (value === undefined2) {
               index = length;
               value = defaultValue;
@@ -20220,12 +20220,12 @@ var require_lodash = __commonJS({
           }
           return object;
         }
-        function set(object, path2, value) {
-          return object == null ? object : baseSet(object, path2, value);
+        function set(object, path3, value) {
+          return object == null ? object : baseSet(object, path3, value);
         }
-        function setWith(object, path2, value, customizer) {
+        function setWith(object, path3, value, customizer) {
           customizer = typeof customizer == "function" ? customizer : undefined2;
-          return object == null ? object : baseSet(object, path2, value, customizer);
+          return object == null ? object : baseSet(object, path3, value, customizer);
         }
         var toPairs = createToPairs(keys);
         var toPairsIn = createToPairs(keysIn);
@@ -20247,15 +20247,15 @@ var require_lodash = __commonJS({
           });
           return accumulator;
         }
-        function unset(object, path2) {
-          return object == null ? true : baseUnset(object, path2);
+        function unset(object, path3) {
+          return object == null ? true : baseUnset(object, path3);
         }
-        function update(object, path2, updater) {
-          return object == null ? object : baseUpdate(object, path2, castFunction(updater));
+        function update(object, path3, updater) {
+          return object == null ? object : baseUpdate(object, path3, castFunction(updater));
         }
-        function updateWith(object, path2, updater, customizer) {
+        function updateWith(object, path3, updater, customizer) {
           customizer = typeof customizer == "function" ? customizer : undefined2;
-          return object == null ? object : baseUpdate(object, path2, castFunction(updater), customizer);
+          return object == null ? object : baseUpdate(object, path3, castFunction(updater), customizer);
         }
         function values(object) {
           return object == null ? [] : baseValues(object, keys(object));
@@ -20636,17 +20636,17 @@ var require_lodash = __commonJS({
         function matches(source) {
           return baseMatches(baseClone(source, CLONE_DEEP_FLAG));
         }
-        function matchesProperty(path2, srcValue) {
-          return baseMatchesProperty(path2, baseClone(srcValue, CLONE_DEEP_FLAG));
+        function matchesProperty(path3, srcValue) {
+          return baseMatchesProperty(path3, baseClone(srcValue, CLONE_DEEP_FLAG));
         }
-        var method = baseRest(function(path2, args) {
+        var method = baseRest(function(path3, args) {
           return function(object) {
-            return baseInvoke(object, path2, args);
+            return baseInvoke(object, path3, args);
           };
         });
         var methodOf = baseRest(function(object, args) {
-          return function(path2) {
-            return baseInvoke(object, path2, args);
+          return function(path3) {
+            return baseInvoke(object, path3, args);
           };
         });
         function mixin(object, source, options) {
@@ -20693,12 +20693,12 @@ var require_lodash = __commonJS({
         var over = createOver(arrayMap);
         var overEvery = createOver(arrayEvery);
         var overSome = createOver(arraySome);
-        function property(path2) {
-          return isKey(path2) ? baseProperty(toKey(path2)) : basePropertyDeep(path2);
+        function property(path3) {
+          return isKey(path3) ? baseProperty(toKey(path3)) : basePropertyDeep(path3);
         }
         function propertyOf(object) {
-          return function(path2) {
-            return object == null ? undefined2 : baseGet(object, path2);
+          return function(path3) {
+            return object == null ? undefined2 : baseGet(object, path3);
           };
         }
         var range = createRange();
@@ -21151,12 +21151,12 @@ var require_lodash = __commonJS({
         LazyWrapper.prototype.findLast = function(predicate) {
           return this.reverse().find(predicate);
         };
-        LazyWrapper.prototype.invokeMap = baseRest(function(path2, args) {
-          if (typeof path2 == "function") {
+        LazyWrapper.prototype.invokeMap = baseRest(function(path3, args) {
+          if (typeof path3 == "function") {
             return new LazyWrapper(this);
           }
           return this.map(function(value) {
-            return baseInvoke(value, path2, args);
+            return baseInvoke(value, path3, args);
           });
         });
         LazyWrapper.prototype.reject = function(predicate) {
@@ -21380,13 +21380,13 @@ var templates = {
         }
 
         .primary {
-            font-size: 5em;
+            font-size: 50;
             font-weight: bold;
             fill: {{font.color}};
         }
 
         .secondary {
-            font-size: 4em;
+            font-size: 40;
             fill: {{font.color}};
             filter: contrast(60%);
         }
@@ -21406,7 +21406,7 @@ var templates = {
         }
 
         .right {
-            transform: translate({{add width -1100}}, 0);
+            transform: translate({{rightAlignPosition width exposure.formatted 26 300 100 }}, 0);
         }
     </style>
 
@@ -21447,12 +21447,11 @@ var templates = {
   "row-single.svg": `<svg width="{{width}}" height="{{height}}" font-family="Arial, Helvetica, sans-serif">
     <style>
         .text {
-            font-size: 5em;
+            font-size: 50;
             font-weight: bold;
             fill: {{font.color}};
             text-anchor: left;
         }
-
 
         .logo {
             width: 180;
@@ -21465,7 +21464,7 @@ var templates = {
         }
 
         .right {
-            transform: translate({{add width -800}}, 0);
+            transform: translate({{rightAlignPosition width exposure.formatted 26 0 100}}, 0);
         }
     </style>
 
@@ -21530,6 +21529,10 @@ var Renderer = class {
       "divideAdd",
       (num1, num2, num3) => num1 / num2 + num3
     );
+    import_handlebars.default.registerHelper(
+      "rightAlignPosition",
+      (width, words, fontSize, prefix, suffix) => width - (words.length * fontSize + prefix + suffix)
+    );
     const template = import_handlebars.default.compile(
       templates[`${this.config.layout}-${this.config.variation}.svg`]
     );
@@ -21547,7 +21550,8 @@ var Renderer = class {
         focal,
         aperture,
         shutter,
-        iso
+        iso,
+        formatted: `${focal}mm \u{1D4D5}${aperture} ${shutter}s ISO${iso}`
       },
       camera: {
         make: exif.Image.Make,
@@ -21703,7 +21707,8 @@ var render = async (config, file, dest) => {
 };
 
 // src/main.ts
-program.command("row").description("row layout").requiredOption("-i, --input <string>", "input photo").requiredOption("-o, --output <string>", "output photo").requiredOption("--variation <string>", "variation: single, double, logo", "double").option("--height <number>", "height of watermark").option("--background <string>", "background color").option("--font-color <string>", "font color").action(async (options) => {
+var import_path2 = __toESM(require("path"));
+program.command("row").description("row layout").requiredOption("-i, --input <string>", "input photo").option("-o, --output <string>", "output photo").requiredOption("--variation <string>", "variation: single, double, logo", "double").option("--height <number>", "height of watermark").option("--background <string>", "background color").option("--font-color <string>", "font color").action(async (options) => {
   const { input, output, variation, height, background, fontColor } = options;
   await render({
     layout: "row",
@@ -21713,9 +21718,9 @@ program.command("row").description("row layout").requiredOption("-i, --input <st
     font: {
       color: fontColor
     }
-  }, input, output);
+  }, input, output || import_path2.default.dirname(input));
 });
-program.command("card").description("card layout").requiredOption("-i, --input <string>", "input photo").requiredOption("-o, --output <string>", "output photo").requiredOption("--variation <string>", "variation: single, double, logo", "double").option("--height <number>", "height of watermark").option("--border <number>", "border of photo").option("--overlay <boolean>", "overlay watermark").option("--background <string>", "background color").option("--font-color <string>", "font color").action(async (options) => {
+program.command("card").description("card layout").requiredOption("-i, --input <string>", "input photo").option("-o, --output <string>", "output photo").requiredOption("--variation <string>", "variation: single, double, logo", "double").option("--height <number>", "height of watermark").option("--border <number>", "border of photo").option("--overlay <boolean>", "overlay watermark").option("--background <string>", "background color").option("--font-color <string>", "font color").action(async (options) => {
   const { input, output, variation, height, background, fontColor, border, overlay } = options;
   await render({
     layout: "card",
@@ -21727,7 +21732,7 @@ program.command("card").description("card layout").requiredOption("-i, --input <
     },
     border,
     overlay
-  }, input, output);
+  }, input, output || import_path2.default.dirname(input));
 });
 program.parse(process.argv);
 /*! Bundled license information:

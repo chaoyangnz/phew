@@ -36,7 +36,7 @@ node phew.js row -i examples/example.JPG -o examples
 | row    | single    |            | ![](examples/example-phew-row-single.JPG)        |
 | row    | logo      |            | ![](examples/example-phew-row-logo.JPG)          |
 | card   | double    |            | ![](examples/example-phew-card-double.JPG)       |
-| card   | double    |            | ![](examples/example-phew-card-double-blur.JPG)  |
+| card   | double    | blur       | ![](examples/example-phew-card-double-blur.JPG)  |
 | card   | single    |            | ![](examples/example-phew-card-single.JPG)       |
 | card   | logo      |            | ![](examples/example-phew-card-logo.JPG)         |
 | card   | logo      | blur       | ![](examples/example-phew-card-logo-blur.JPG)    |

@@ -56,6 +56,10 @@ export abstract class Renderer {
       'divideAdd',
       (num1: number, num2: number, num3: number) => num1 / num2 + num3,
     );
+    Handlebars.registerHelper(
+      'rightAlignPosition',
+      (width: number, words: string, fontSize: number, prefix: number, suffix: number) => width - (words.length * fontSize + prefix + suffix),
+    );
     const template = Handlebars.compile(
       templates[`${this.config.layout}-${this.config.variation}.svg`]
     );
@@ -74,6 +78,7 @@ export abstract class Renderer {
         aperture,
         shutter,
         iso,
+        formatted: `${focal}mm 𝓕${aperture} ${shutter}s ISO${iso}`
       },
       camera: {
         make: exif.Image.Make,

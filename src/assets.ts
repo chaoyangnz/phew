@@ -83,13 +83,13 @@ export const templates = {
         }
 
         .primary {
-            font-size: 5em;
+            font-size: 50;
             font-weight: bold;
             fill: {{font.color}};
         }
 
         .secondary {
-            font-size: 4em;
+            font-size: 40;
             fill: {{font.color}};
             filter: contrast(60%);
         }
@@ -109,7 +109,7 @@ export const templates = {
         }
 
         .right {
-            transform: translate({{add width -1100}}, 0);
+            transform: translate({{rightAlignPosition width exposure.formatted 26 300 100 }}, 0);
         }
     </style>
 
@@ -150,12 +150,11 @@ export const templates = {
   'row-single.svg': `<svg width="{{width}}" height="{{height}}" font-family="Arial, Helvetica, sans-serif">
     <style>
         .text {
-            font-size: 5em;
+            font-size: 50;
             font-weight: bold;
             fill: {{font.color}};
             text-anchor: left;
         }
-
 
         .logo {
             width: 180;
@@ -168,7 +167,7 @@ export const templates = {
         }
 
         .right {
-            transform: translate({{add width -800}}, 0);
+            transform: translate({{rightAlignPosition width exposure.formatted 26 0 100}}, 0);
         }
     </style>
 
