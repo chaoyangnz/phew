@@ -1,5 +1,7 @@
 export type Config = RowConfig | ColumnConfig | SimpleConfig | CardConfig;
 
+export type Color = string
+
 export type RowConfig = {
   layout: 'row';
   variation: 'single' | 'double' | 'logo';
@@ -7,7 +9,7 @@ export type RowConfig = {
   font?: {
     color?: string
   },
-  background?: string
+  background?: 'blur' | Color
 };
 
 export type ColumnConfig = {
@@ -15,9 +17,9 @@ export type ColumnConfig = {
   variation: 'landscape' | 'left-margin' | 'right-margin' | 'portrait';
   blur?: boolean;
   font?: {
-    color?: string
+    color?: Color
   }
-  background?: string
+  background?: 'blur' | Color
 };
 
 export type SimpleConfig = {
@@ -25,9 +27,9 @@ export type SimpleConfig = {
   variation: 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom';
   offset?: number;
   font?: {
-    color?: string
+    color?: Color
   },
-  background?: string
+  background?: 'blur' | Color
 };
 
 export type CardConfig = {
@@ -36,9 +38,8 @@ export type CardConfig = {
   height?: number;
   border?: number;
   overlay?: boolean;
-  blur?: boolean;
   font?: {
-    color?: string
+    color?: Color
   },
   background?: string
 };

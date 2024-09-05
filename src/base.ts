@@ -15,7 +15,7 @@ export abstract class Renderer {
     public config: Config,
   ) {}
 
-  async render(dest: string) {
+  async render(dest: string): Promise<string> {
     const image = await sharp(this.file);
     this.metadata = await image.metadata();
     this.raw = await image.toBuffer();
@@ -125,6 +125,8 @@ export abstract class Renderer {
       ])
       .keepMetadata()
       .toFile(dst);
+
+    return dst
   }
 
   // return width, height
@@ -150,7 +152,7 @@ export abstract class Renderer {
   }
 }
 
-const dataUrl = (file: string) => {
+const dataUrl = (file: string): string => {
   const mime = 'image/png';
   const encoding = 'base64';
   const data = fs
@@ -159,8 +161,8 @@ const dataUrl = (file: string) => {
   return `data:${mime};${encoding},${data}`;
 };
 
-const brand = (make: string) => {
-  const brand = ['nikon', 'canon', 'sony', 'fujifilm', 'leica', 'panasonic', 'pentax', 'hasselblad', 'olympus', 'ricoh', 'apple', 'dji', 'xmage'].filter((it) =>
+const brand = (make: string): string => {
+  const brand = ['nikon', 'canon', 'sony', 'fujifilm', 'leica', 'panasonic', 'pentax', 'hasselblad', 'olympus', 'ricoh', 'apple', 'dji', 'xmage'].find((it) =>
     make.toLowerCase().includes(it),
   );
 

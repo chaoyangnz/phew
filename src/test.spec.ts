@@ -1,4 +1,4 @@
-import { render } from './main';
+import { render } from './';
 
 describe('phew test', () => {
 
@@ -30,7 +30,7 @@ describe('phew test', () => {
       layout: 'card',
       variation: 'logo',
       border: 150,
-      blur: true,
+      background: 'blur',
     }, file, dest)
 
     await render({
@@ -47,7 +47,7 @@ describe('phew test', () => {
     await render({
       layout: 'card',
       variation: 'double',
-      blur: true,
+      background: 'blur',
       font: {
         color: '#fff'
       }
@@ -58,7 +58,7 @@ describe('phew test', () => {
       variation: 'double',
       height: 500,
       overlay: true,
-      blur: true,
+      background: 'blur',
       font: {
         color: '#fff'
       }
@@ -68,6 +68,8 @@ describe('phew test', () => {
       layout: 'card',
       variation: 'single',
     }, file, dest)
+
+    expect(true).toBeTruthy()
 
   })
 })

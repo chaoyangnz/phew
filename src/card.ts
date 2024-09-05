@@ -25,7 +25,7 @@ export class CardRenderer extends Renderer {
       height: this.config.overlay
         ? this.metadata.height + this.config.border * 2
         : this.metadata.height + + this.config.border + this.config.height,
-      background: this.config.blur ? 'blur' : this.config.background,
+      background: this.config.background,
     };
   }
 
@@ -56,7 +56,7 @@ export class CardRenderer extends Renderer {
       this.config.layout,
       this.config.variation,
       this.config.overlay ? 'overlay' : null,
-      this.config.blur ? 'blur' : null]
+      this.config.background === 'blur' ? 'blur' : null]
     ).join('-')}${extension}`
   }
 }

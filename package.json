@@ -11,6 +11,8 @@
     "@types/node": "~20",
     "@typescript-eslint/eslint-plugin": "~7.6",
     "@typescript-eslint/parser": "~7.6",
+    "@yao-pkg/pkg": "^5.12.1",
+    "esbuild": "^0.23.1",
     "eslint": "~8.56",
     "eslint-config-prettier": "~9.1",
     "eslint-plugin-jest": "~28.2",
@@ -24,7 +26,7 @@
     "typescript": "~5.4"
   },
   "scripts": {
-    "start": "node build/src/main.js",
+    "start": "node build/src/index.js",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
     "build": "tsc -p tsconfig.json",
@@ -33,12 +35,16 @@
     "lint": "eslint . --ext .ts --ext .mts",
     "test": "jest --coverage",
     "prettier": "prettier --config .prettierrc --write .",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "esbuild": "esbuild src/main.ts --bundle --platform=node --outfile=phew.js",
+    "pkg": "npm run esbuild && pkg phew.js -t node20-win-x64",
+    "sea": "npm run esbuild && node --experimental-sea-config sea-config.json && node -e \"require('fs').copyFileSync(process.execPath, 'phew.exe')\" && \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\signtool.exe\" remove /s phew.exe && npx postject phew.exe NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2"
   },
   "author": "Jakub Synowiec <jsynowiec@users.noreply.github.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "color": "^4.2.3",
+    "commander": "^12.1.0",
     "date-format": "^4.0.14",
     "exif-reader": "^2.0.1",
     "handlebars": "^4.7.8",
@@ -48,5 +54,8 @@
   },
   "volta": {
     "node": "20.12.2"
+  },
+  "optionalDependencies": {
+    "@img/sharp-win32-x64": "^0.33.5"
   }
 }
