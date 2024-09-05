@@ -3,6 +3,7 @@
     "target": "es2022",
     "module": "commonjs",
     "lib": ["ES2022"],
+    "jsx": "react-jsx",
     "moduleResolution": "node",
     "rootDir": ".",
     "outDir": "build",
@@ -18,7 +19,8 @@
     "noImplicitAny": false,
     "noImplicitThis": false,
     "strictNullChecks": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*", "__tests__/**/*"]
 }

@@ -37,6 +37,7 @@ program
   .option('--font-color <string>', 'font color')
   .action(async (options) => {
     const {input, output, variation, height, background, fontColor, border, overlay} = options;
+    console.log(options)
     await render({
       layout: 'card',
       variation,
@@ -45,8 +46,8 @@ program
       font: {
         color: fontColor
       },
-      border,
-      overlay,
+      border: border ? parseInt(border) : undefined,
+      overlay: overlay ? true : undefined,
     }, input, output || path.dirname(input));
   })
 

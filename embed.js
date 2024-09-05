@@ -25,12 +25,12 @@ async function main() {
   }
   lines.push(`}`);
 
-  lines.push('export const templates = {')
-  for await (const p of walk('assets/template')) {
+  lines.push('export const fonts = {')
+  for await (const p of walk('assets/font')) {
     const name = path.basename(p)
     console.log(p, name);
-    const data = fs.readFileSync(p, 'utf8');
-    lines.push(`  '${name}': \`${data}\`,`)
+    const data = fs.readFileSync(p).toString('base64');
+    lines.push(`  '${name}': Buffer.from('${data}', 'base64'),`)
   }
   lines.push(`}`);
 

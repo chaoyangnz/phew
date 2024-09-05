@@ -1,18 +1,18 @@
 import { Renderer } from './base';
 import { RowConfig } from './config';
-import { merge } from 'lodash'
+import { defaults } from 'lodash'
 
 export class RowRenderer extends Renderer {
   constructor(
     file: string,
     public config: RowConfig,
   ) {
-    super(file, merge(config, {
+    super(file, defaults(config, {
       height: 400,
       font: {
-        color: '#000'
+        color: '#000000'
       },
-      background: '#fff'
+      background: '#ffffff'
     }));
   }
 
@@ -42,3 +42,4 @@ export class RowRenderer extends Renderer {
     };
   }
 }
+

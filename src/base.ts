@@ -1,22 +1,23 @@
 import sharp from 'sharp';
 import exifRead from 'exif-reader';
-import Handlebars from 'handlebars';
 import path from 'path';
 import format from 'date-format';
 import { Config } from './config';
-import { logos, templates } from './assets';
+import { logos, fonts } from './assets';
+import satori from 'satori';
+import { templates } from './templates';
 
 export abstract class Renderer {
   metadata: sharp.Metadata;
   raw: Buffer;
 
-  constructor(
+  protected constructor(
     public file: string,
     public config: Config,
   ) {}
 
   async render(dest: string): Promise<string> {
-    const image = await sharp(this.file);
+    const image = sharp(this.file);
     this.metadata = await image.metadata();
     this.raw = await image.toBuffer();
 
@@ -36,33 +37,6 @@ export abstract class Renderer {
     const name = path.basename(this.file, extension)
     const dst = `${dest}/${this.filename(name, extension)}`;
 
-    Handlebars.registerHelper(
-      'add',
-      (num1: number, num2: number) => num1 + num2,
-    );
-    Handlebars.registerHelper(
-      'minus',
-      (num1: number, num2: number) => num1 - num2,
-    );
-    Handlebars.registerHelper(
-      'multiply',
-      (num1: number, num2: number) => num1 * num2,
-    );
-    Handlebars.registerHelper(
-      'divide',
-      (num1: number, num2: number) => num1 / num2,
-    );
-    Handlebars.registerHelper(
-      'divideAdd',
-      (num1: number, num2: number, num3: number) => num1 / num2 + num3,
-    );
-    Handlebars.registerHelper(
-      'rightAlignPosition',
-      (width: number, words: string, fontSize: number, prefix: number, suffix: number) => width - (words.length * fontSize + prefix + suffix),
-    );
-    const template = Handlebars.compile(
-      templates[`${this.config.layout}-${this.config.variation}.svg`]
-    );
     const context = {
       size: {
         width: baseSpec.width,
@@ -91,8 +65,27 @@ export abstract class Renderer {
       },
       datetime: format('yyyy-MM-dd hh:mm', exif.Photo.DateTimeOriginal),
     }
-    const svg = template(context);
-    // console.log(dst, template(assign(context, {camera: {logo: ''}})));
+    const template = await templates[`${this.config.layout}-${this.config.variation}`]
+    const svg = await satori(template(context), {
+      width: context.width,
+      height: context.height,
+      fonts: [
+        {
+          name: 'Roboto',
+          data: fonts['Roboto-Regular.ttf'],
+          weight: 400,
+          style: 'normal',
+        },
+        {
+          name: 'Arial',
+          data: fonts['Arial.ttf'],
+          weight: 400,
+          style: 'normal',
+        },
+      ],
+      embedFont: false
+    })
+    // fs.writeFileSync('1.svg', s)
     const watermark = {
       input: Buffer.from(svg),
       left: watermarkSpec.left,
@@ -150,15 +143,6 @@ export abstract class Renderer {
     return `${[name, 'phew', this.config.layout, this.config.variation].join('-')}${extension}`
   }
 }
-
-// const dataUrl = (file: string): string => {
-//   const mime = 'image/png';
-//   const encoding = 'base64';
-//   const data = fs
-//     .readFileSync(path.resolve(__dirname, file))
-//     .toString(encoding);
-//   return `data:${mime};${encoding},${data}`;
-// };
 
 const brand = (make: string): string => {
   const brand = ['nikon', 'canon', 'sony', 'fujifilm', 'leica', 'panasonic', 'pentax', 'hasselblad', 'olympus', 'ricoh', 'apple', 'dji', 'xmage'].find((it) =>

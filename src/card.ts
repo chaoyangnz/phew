@@ -1,13 +1,13 @@
 import { Renderer } from './base';
 import { CardConfig } from './config';
-import { compact, merge } from 'lodash'
+import { compact, defaults } from 'lodash'
 
 export class CardRenderer extends Renderer {
   constructor(
     file: string,
     public config: CardConfig,
   ) {
-    super(file, merge(config, {
+    super(file, defaults(config, {
       height: 400,
       border: 60,
       overlay: false,
