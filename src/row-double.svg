@@ -1,16 +1,19 @@
 <svg width="{{width}}" height="{{height}}" font-family="Arial, Helvetica, sans-serif">
     <style>
+        .text {
+            text-anchor: left;
+        }
+
         .primary {
             font-size: 5em;
             font-weight: bold;
             fill: {{font.color}};
-            text-anchor: left;
         }
 
         .secondary {
             font-size: 4em;
-            fill: #666;
-            text-anchor: left;
+            fill: {{font.color}};
+            filter: contrast(60%);
         }
 
         .logo {
@@ -33,10 +36,10 @@
     </style>
 
     <g class="left">
-        <text class="primary" x="0" y="35%">
+        <text class="text primary" x="0" y="35%">
             {{len.model}}
         </text>
-        <text class="secondary" x="0" y="65%">
+        <text class="text secondary" x="0" y="65%">
             {{camera.model}}
         </text>
     </g>

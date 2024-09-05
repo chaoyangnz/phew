@@ -1,13 +1,22 @@
 import { Renderer } from './base';
 import { CardConfig } from './config';
-import { compact } from 'lodash'
+import { compact, merge } from 'lodash'
 
 export class CardRenderer extends Renderer {
   constructor(
     file: string,
     public config: CardConfig,
   ) {
-    super(file, config);
+    super(file, merge(config, {
+      height: 400,
+      border: 60,
+      overlay: false,
+      blur: false,
+      font: {
+        color: '#000'
+      },
+      background: '#fff',
+    }));
   }
 
   base(): { width: number; height: number; background: string } {
@@ -16,7 +25,7 @@ export class CardRenderer extends Renderer {
       height: this.config.overlay
         ? this.metadata.height + this.config.border * 2
         : this.metadata.height + + this.config.border + this.config.height,
-      background: this.config.blur ? 'blur' : '#fff',
+      background: this.config.blur ? 'blur' : this.config.background,
     };
   }
 

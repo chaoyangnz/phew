@@ -5,7 +5,6 @@ import fs from 'fs';
 import path from 'path';
 import format from 'date-format';
 import { Config } from './config';
-import { assign  } from 'lodash';
 
 export abstract class Renderer {
   metadata: sharp.Metadata;
@@ -74,7 +73,7 @@ export abstract class Renderer {
       width: watermarkSpec.width,
       height: watermarkSpec.height,
       font: {
-        color: this.config.font?.color || '#000'
+        color: this.config.font.color
       },
       exposure: {
         focal,
@@ -85,7 +84,7 @@ export abstract class Renderer {
       camera: {
         make: exif.Image.Make,
         model: exif.Image.Model,
-        logo: dataUrl(cameraLogo(exif.Image.Make)),
+        logo: dataUrl(`assets/logo/${brand(exif.Image.Make)}.png`),
       },
       len: {
         make: exif.Photo.LensMake,
@@ -94,14 +93,12 @@ export abstract class Renderer {
       datetime: format('yyyy-MM-dd hh:mm', exif.Photo.DateTimeOriginal),
     }
     const svg = template(context);
-    console.log(dst, template(assign(context, {camera: {logo: ''}})));
+    // console.log(dst, template(assign(context, {camera: {logo: ''}})));
     const watermark = {
       input: Buffer.from(svg),
       left: watermarkSpec.left,
       top: watermarkSpec.top,
     };
-
-    const backgroundColor = baseSpec.background !== 'blur' ? baseSpec.background : '#fff';
 
     const base =
       baseSpec.background !== 'blur'
@@ -110,7 +107,7 @@ export abstract class Renderer {
               width: baseSpec.width,
               height: baseSpec.height,
               channels: 4,
-              background: backgroundColor,
+              background: baseSpec.background,
             },
           })
         : sharp(this.raw).extract({ width: originalSpec.width - 200, height: originalSpec.height - 200, left: 200, top: 200 })
@@ -162,10 +159,10 @@ const dataUrl = (file: string) => {
   return `data:${mime};${encoding},${data}`;
 };
 
-const cameraLogo = (make: string) => {
-  const brand = ['nikon', 'canon'].filter((it) =>
+const brand = (make: string) => {
+  const brand = ['nikon', 'canon', 'sony', 'fujifilm', 'leica', 'panasonic', 'pentax', 'hasselblad', 'olympus', 'ricoh', 'apple', 'dji', 'xmage'].filter((it) =>
     make.toLowerCase().includes(it),
   );
 
-  return brand ? `assets/logo/${brand}.png` : 'assets/logo/empty.png';
+  return brand || 'empty';
 };
