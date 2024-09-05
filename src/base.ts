@@ -1,10 +1,10 @@
 import sharp from 'sharp';
 import exifRead from 'exif-reader';
 import Handlebars from 'handlebars';
-import fs from 'fs';
 import path from 'path';
 import format from 'date-format';
 import { Config } from './config';
+import { logos, templates } from './assets';
 
 export abstract class Renderer {
   metadata: sharp.Metadata;
@@ -57,13 +57,7 @@ export abstract class Renderer {
       (num1: number, num2: number, num3: number) => num1 / num2 + num3,
     );
     const template = Handlebars.compile(
-      fs.readFileSync(
-        path.resolve(
-          __dirname,
-          `${this.config.layout}-${this.config.variation}.svg`,
-        ),
-        'utf8',
-      ),
+      templates[`${this.config.layout}-${this.config.variation}.svg`]
     );
     const context = {
       size: {
@@ -84,7 +78,7 @@ export abstract class Renderer {
       camera: {
         make: exif.Image.Make,
         model: exif.Image.Model,
-        logo: dataUrl(`assets/logo/${brand(exif.Image.Make)}.png`),
+        logo: logos[`${brand(exif.Image.Make)}.png`],
       },
       len: {
         make: exif.Photo.LensMake,
@@ -152,14 +146,14 @@ export abstract class Renderer {
   }
 }
 
-const dataUrl = (file: string): string => {
-  const mime = 'image/png';
-  const encoding = 'base64';
-  const data = fs
-    .readFileSync(path.resolve(__dirname, file))
-    .toString(encoding);
-  return `data:${mime};${encoding},${data}`;
-};
+// const dataUrl = (file: string): string => {
+//   const mime = 'image/png';
+//   const encoding = 'base64';
+//   const data = fs
+//     .readFileSync(path.resolve(__dirname, file))
+//     .toString(encoding);
+//   return `data:${mime};${encoding},${data}`;
+// };
 
 const brand = (make: string): string => {
   const brand = ['nikon', 'canon', 'sony', 'fujifilm', 'leica', 'panasonic', 'pentax', 'hasselblad', 'olympus', 'ricoh', 'apple', 'dji', 'xmage'].find((it) =>

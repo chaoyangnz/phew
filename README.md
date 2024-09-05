@@ -7,6 +7,8 @@ A tool to add Exif watermark to photos. The layout can be flexible to define and
 
 ## Usage
 
+- Module
+
 ```ts
 
 import { render } from 'phew'
@@ -17,6 +19,12 @@ render({
  height: 400, 
 }, file, 'dest')
 
+```
+
+- CLI
+
+```
+node phew.js row -i examples/example.JPG -o examples
 ```
 
 ## Examples

@@ -1,0 +1,57 @@
+<svg width="{{width}}" height="{{height}}" font-family="Arial, Helvetica, sans-serif">
+    <style>
+        .text {
+            text-anchor: left;
+        }
+
+        .primary {
+            font-size: 5em;
+            font-weight: bold;
+            fill: {{font.color}};
+        }
+
+        .secondary {
+            font-size: 4em;
+            fill: {{font.color}};
+            filter: contrast(60%);
+        }
+
+        .logo {
+            width: 180;
+            height: 180;
+        }
+
+        .separator {
+            stroke: #555555;
+            stroke-width: 2;
+        }
+
+        .left {
+            transform: translate(100, 0);
+        }
+
+        .right {
+            transform: translate({{add width -1100}}, 0);
+        }
+    </style>
+
+    <g class="left">
+        <text class="text primary" x="0" y="35%">
+            {{len.model}}
+        </text>
+        <text class="text secondary" x="0" y="65%">
+            {{camera.model}}
+        </text>
+    </g>
+
+    <g class="right">
+        <image class="logo" href="{{camera.logo}}" x="0" y="25%" />
+        <line class="separator" x1="240" x2="240" y1="25%" y2="75%" />
+        <text class="primary" x="300" y="35%">
+            {{exposure.focal}}mm 𝓕{{exposure.aperture}} {{exposure.shutter}}s ISO{{exposure.iso}}
+        </text>
+        <text class="secondary" x="300" y="65%">
+            {{datetime}}
+        </text>
+    </g>
+</svg>
