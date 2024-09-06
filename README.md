@@ -17,8 +17,8 @@ We use `JSX` to define the watermark templates, render it to `SVG` and composite
 import { render } from 'phew'
 
 render({
- layout: 'row',
- variation: 'double',
+ layout: 'card',
+ variation: 'full',
  height: 400, 
 }, file, 'dest')
 
@@ -27,7 +27,7 @@ render({
 - CLI
 
 ```
-node phew.js row examples/example.JPG -o examples
+node phew.js card examples/example.JPG -o examples --variation classic
 ```
 
 ## Examples
@@ -35,17 +35,17 @@ node phew.js row examples/example.JPG -o examples
 
 |                      layout                       |
 |:-------------------------------------------------:|
-|                   card / double                   |
+|                    card / full                    |
 |     ![](examples/example-phew-card-full.JPG)      |
-|                   card / single                    |
+|                   card / classic                   |
 |    ![](examples/example-phew-card-classic.JPG)    |
-|                    card / logo                     | 
+|                    card / logo                    | 
 |     ![](examples/example-phew-card-logo.JPG)      |
-|                   card / double                   |
+|                   card / clean                   |
 |     ![](examples/example-phew-card-clean.JPG)     |
-|               card / double / blur                |
+|               card / clean / blur                |
 |  ![](examples/example-phew-card-clean-blur.JPG)   |
-|                   card / single                   |
+|                   card / param                   |
 |     ![](examples/example-phew-card-param.JPG)     |
 |                    card / logo                    |
 |   ![](examples/example-alt-phew-card-logo.JPG)    |

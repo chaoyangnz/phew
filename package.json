@@ -1,7 +1,7 @@
 {
-  "name": "node-typescript-boilerplate",
-  "version": "0.0.0",
-  "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
+  "name": "phew",
+  "version": "0.0.1",
+  "description": "Photo Exif Watermark",
   "type": "commonjs",
   "engines": {
     "node": ">= 20.9 < 21"
@@ -42,7 +42,7 @@
     "pkg": "npm run bundle && pkg phew.js -t node20-win-x64",
     "sea": "npm run bundle && node --experimental-sea-config sea-config.json && node -e \"require('fs').copyFileSync(process.execPath, 'phew.exe')\" && \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\signtool.exe\" remove /s phew.exe && npx postject phew.exe NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2"
   },
-  "author": "Jakub Synowiec <jsynowiec@users.noreply.github.com>",
+  "author": "Chao Y <chaoyangnz@users.noreply.github.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "color": "^4.2.3",
