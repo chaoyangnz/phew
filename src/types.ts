@@ -1,4 +1,4 @@
-export type Config = ColumnConfig | SimpleConfig | CardConfig;
+export type Config = ColumnConfig | CardConfig | ImpressionConfig;
 
 export type Color = string
 
@@ -29,22 +29,22 @@ export type ColumnConfig = CommonConfig & {
   background?: 'blur' | Color
 };
 
-export type SimpleConfig = CommonConfig & {
-  layout: 'simple';
-  variation: 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom';
-  offset?: number;
-  background?: 'blur' | Color
-};
-
 export type CardConfig = CommonConfig & {
   layout: 'card';
   variation: 'full' | 'classic' | 'clean' | 'param' | 'logo';
-  height?: number;
+  size?: number;
   border?: number;
   overlay?: boolean;
   background?: string
 };
 
+export type ImpressionConfig = CommonConfig & {
+  layout: 'impression';
+  variation: 'around' | 'left' | 'right' | 'bottom';
+  size?: { start?: number, end?: number };
+  border?: number
+  background?: 'blur' | Color
+};
 
 export type Spec = {
   background: { width: number; height: number; background: string }
@@ -64,7 +64,11 @@ export type Spec = {
 
 
 export type Context = {
-  size: {
+  background: {
+    width: number,
+    height: number,
+  },
+  original: {
     width: number,
     height: number,
   },
@@ -97,4 +101,5 @@ export type Context = {
     model: string,
   },
   datetime: string,
+  config: Config
 }

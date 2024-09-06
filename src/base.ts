@@ -28,9 +28,13 @@ export abstract class Renderer {
     const spec = this.spec();
 
     const context: Context = {
-      size: {
+      background: {
         width: spec.background.width,
         height: spec.background.height,
+      },
+      original: {
+        width: spec.original.width,
+        height: spec.original.height,
       },
       width: spec.watermark.width,
       height: spec.watermark.height,
@@ -44,7 +48,8 @@ export abstract class Renderer {
           secondary: this.config.font.size.secondary,
         }
       },
-      ...exif
+      ...exif,
+      config: this.config
     };
     const template =
       await templates[`${this.config.layout}-${this.config.variation}`];

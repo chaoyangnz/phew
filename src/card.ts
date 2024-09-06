@@ -11,15 +11,14 @@ export class CardRenderer extends Renderer {
       height: 400,
       border: 60,
       overlay: false,
-      blur: false,
       font: {
         color: {
           primary: '#000000ff',
           secondary: '#444444ff'
         },
         size: {
-          primary: '50',
-          secondary: '40'
+          primary: 50,
+          secondary: 40
         }
       },
       background: '#fff',
@@ -32,7 +31,7 @@ export class CardRenderer extends Renderer {
         width: this.info.width + this.config.border * 2,
         height: this.config.overlay
           ? this.info.height + this.config.border * 2
-          : this.info.height + + this.config.border + this.config.height,
+          : this.info.height + + this.config.border + this.config.size,
         background: this.config.background,
       },
       original: {
@@ -43,10 +42,10 @@ export class CardRenderer extends Renderer {
       },
       watermark: {
         width: this.info.width + this.config.border * 2,
-        height: this.config.height,
+        height: this.config.size,
         left: 0,
         top: this.config.overlay
-          ? this.info.height - this.config.height
+          ? this.info.height - this.config.size
           : this.info.height + this.config.border,
       }
     }
