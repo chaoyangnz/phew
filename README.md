@@ -43,7 +43,7 @@ node phew.js row -i examples/example.JPG -o examples
 |       ![](examples/example-phew-row-logo.JPG)       |
 |                    card / double                    |
 |     ![](examples/example-phew-card-double.JPG)      |
-|                 card / double/blur                  |
+|                card / double / blur                 |
 |   ![](examples/example-phew-card-double-blur.JPG)   |
 |                    card / single                    |
 |     ![](examples/example-phew-card-single.JPG)      |
