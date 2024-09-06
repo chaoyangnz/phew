@@ -2,52 +2,74 @@ import { program } from 'commander';
 import { render } from './index';
 import path from 'path';
 
+process.chdir(__dirname)
+
+const numberArg = (value, _) => value ? parseInt(value) : undefined
+
 program
-  .command('row')
+  .command('row <input>')
   .description('row layout')
-  .requiredOption('-i, --input <string>', 'input photo')
-  .option('-o, --output <string>', 'output photo')
   .requiredOption('--variation <string>', 'variation: single, double, logo', 'double')
-  .option('--height <number>', 'height of watermark')
+  .option('-o, --output <string>', 'output photo path')
+  .option('--height <number>', 'height of watermark', numberArg)
   .option('--background <string>', 'background color')
-  .option('--font-color <string>', 'font color')
-  .action(async (options) => {
-    const {input, output, variation, height, background, fontColor} = options;
+  .option('--primary-font-color <string>', 'primary font color')
+  .option('--secondary-font-color <string>', 'primary font color')
+  .option('--primary-font-size <number>', 'primary font color', numberArg)
+  .option('--secondary-font-size <number>', 'primary font color', numberArg)
+  .action(async (input, options) => {
+    const {output, variation, height, background, primaryFontColor, secondaryFontColor, primaryFontSize, secondaryFontSize} = options;
     await render({
       layout: 'row',
       variation,
       height,
       background,
       font: {
-        color: fontColor
+        color: {
+          primary: primaryFontColor,
+          secondary: secondaryFontColor
+        },
+        size: {
+          primary: primaryFontSize,
+          secondary: secondaryFontSize
+        }
       }
     }, input, output || path.dirname(input));
   })
 
 program
-  .command('card')
+  .command('card <input>')
   .description('card layout')
-  .requiredOption('-i, --input <string>', 'input photo')
-  .option('-o, --output <string>', 'output photo')
-  .requiredOption('--variation <string>', 'variation: single, double, logo', 'double')
-  .option('--height <number>', 'height of watermark')
-  .option('--border <number>', 'border of photo')
-  .option('--overlay <boolean>', 'overlay watermark')
+  .option('-o, --output <string>', 'output photo path')
+  .option('--variation <string>', 'variation: single, double, logo', 'double')
+  .option('--height <number>', 'height of watermark', numberArg)
+  .option('--border <number>', 'border of photo', numberArg)
+  .option('--overlay', 'overlay watermark')
   .option('--background <string>', 'background color')
-  .option('--font-color <string>', 'font color')
-  .action(async (options) => {
-    const {input, output, variation, height, background, fontColor, border, overlay} = options;
+  .option('--primary-font-color <string>', 'primary font color')
+  .option('--secondary-font-color <string>', 'primary font color')
+  .option('--primary-font-size <number>', 'primary font color', numberArg)
+  .option('--secondary-font-size <number>', 'primary font color', numberArg)
+  .action(async (input, options) => {
+    const {output, variation, height, background, primaryFontColor, secondaryFontColor, primaryFontSize, secondaryFontSize, border, overlay} = options;
     await render({
       layout: 'card',
       variation,
       height,
       background,
       font: {
-        color: fontColor
+        color: {
+          primary: primaryFontColor,
+          secondary: secondaryFontColor
+        },
+        size: {
+          primary: primaryFontSize,
+          secondary: secondaryFontSize
+        }
       },
       border,
-      overlay,
-    }, input, output || path.dirname(input));
+      overlay: overlay
+    }, input, output);
   })
 
 program.parse(process.argv)
