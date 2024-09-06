@@ -39,8 +39,8 @@
     "prettier": "prettier --config .prettierrc --write .",
     "test:watch": "jest --watch",
     "bundle": "node embed.js && esbuild src/main.ts --bundle --platform=node --outfile=phew.js",
-    "pkg": "npm run esbuild && pkg phew.js -t node20-win-x64",
-    "sea": "npm run esbuild && node --experimental-sea-config sea-config.json && node -e \"require('fs').copyFileSync(process.execPath, 'phew.exe')\" && \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\signtool.exe\" remove /s phew.exe && npx postject phew.exe NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2"
+    "pkg": "npm run bundle && pkg phew.js -t node20-win-x64",
+    "sea": "npm run bundle && node --experimental-sea-config sea-config.json && node -e \"require('fs').copyFileSync(process.execPath, 'phew.exe')\" && \"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\signtool.exe\" remove /s phew.exe && npx postject phew.exe NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2"
   },
   "author": "Jakub Synowiec <jsynowiec@users.noreply.github.com>",
   "license": "Apache-2.0",

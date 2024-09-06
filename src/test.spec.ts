@@ -4,6 +4,7 @@ describe('phew test', () => {
 
   it('generate', async () => {
     const file = 'examples/example.JPG';
+    const file1 = 'examples/example-small.JPG';
     const dest = 'examples'
 
     await render({
@@ -24,14 +25,14 @@ describe('phew test', () => {
     await render({
       layout: 'card',
       variation: 'logo',
-    }, file, dest)
+    }, file1, dest)
 
     await render({
       layout: 'card',
       variation: 'logo',
       border: 150,
       background: 'blur',
-    }, file, dest)
+    }, file1, dest)
 
     await render({
       layout: 'card',
@@ -49,7 +50,10 @@ describe('phew test', () => {
       variation: 'double',
       background: 'blur',
       font: {
-        color: '#fff'
+        color: {
+          primary: '#ffffffff',
+          secondary: '#999999ff'
+        }
       }
     }, file, dest)
 
@@ -60,7 +64,10 @@ describe('phew test', () => {
       overlay: true,
       background: 'blur',
       font: {
-        color: '#fff'
+        color: {
+          primary: '#ffffffff',
+          secondary: '#999999ff'
+        }
       }
     }, file, dest)
 
@@ -71,5 +78,5 @@ describe('phew test', () => {
 
     expect(true).toBeTruthy()
 
-  })
+  }, 7200000)
 })

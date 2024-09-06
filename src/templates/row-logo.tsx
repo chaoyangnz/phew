@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
+import { Context } from '../types';
 
-export default ($: any): ReactNode => {
+export default ($: Context): ReactNode => {
   return (
     <div
       style={{
@@ -24,5 +25,5 @@ export default ($: any): ReactNode => {
 
     </div>
   );
-};
+}
 

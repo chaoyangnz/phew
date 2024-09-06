@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
+import { Context } from '../types';
 
-export default ($: any): ReactNode => {
-  const textCss = {fontSize: 50, color: $.font.color, fontWeight: 'bold'}
+export default ($: Context): ReactNode => {
+  const textCss = {fontSize: $.font.size.primary, color: $.font.color.primary, fontWeight: 'bold'}
 
   return (
     <div
@@ -24,5 +25,5 @@ export default ($: any): ReactNode => {
 
     </div>
   );
-};
+}
 
