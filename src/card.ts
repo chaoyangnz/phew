@@ -8,7 +8,7 @@ export class CardRenderer extends Renderer {
     public config: CardConfig,
   ) {
     super(file, defaultsDeep(config, {
-      height: 400,
+      size: 400,
       border: 60,
       overlay: false,
       font: {
