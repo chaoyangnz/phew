@@ -27,29 +27,29 @@ render({
 - CLI
 
 ```
-node phew.js row -i examples/example.JPG -o examples
+node phew.js row examples/example.JPG -o examples
 ```
 
 ## Examples
 
 
-|                       layout                        |
-|:---------------------------------------------------:|
-|                    row / double                     |
-|      ![](examples/example-phew-row-double.JPG)      |
-|                    row / single                     |
-|      ![](examples/example-phew-row-single.JPG)      |
-|                     row / logo                      | 
-|       ![](examples/example-phew-row-logo.JPG)       |
-|                    card / double                    |
-|     ![](examples/example-phew-card-double.JPG)      |
-|                card / double / blur                 |
-|   ![](examples/example-phew-card-double-blur.JPG)   |
-|                    card / single                    |
-|     ![](examples/example-phew-card-single.JPG)      |
-|                     card / logo                     |
-|   ![](examples/example-small-phew-card-logo.JPG)    |
-|                 card / logo / blur                  |
-| ![](examples/example-small-phew-card-logo-blur.JPG) |
-|                card / logo / overlay                |
-|  ![](examples/example-phew-card-logo-overlay.JPG)   |
+|                      layout                       |
+|:-------------------------------------------------:|
+|                   card / double                   |
+|     ![](examples/example-phew-card-full.JPG)      |
+|                   card / single                    |
+|    ![](examples/example-phew-card-classic.JPG)    |
+|                    card / logo                     | 
+|     ![](examples/example-phew-card-logo.JPG)      |
+|                   card / double                   |
+|     ![](examples/example-phew-card-clean.JPG)     |
+|               card / double / blur                |
+|  ![](examples/example-phew-card-clean-blur.JPG)   |
+|                   card / single                   |
+|     ![](examples/example-phew-card-param.JPG)     |
+|                    card / logo                    |
+|   ![](examples/example-alt-phew-card-logo.JPG)    |
+|                card / logo / blur                 |
+| ![](examples/example-alt-phew-card-logo-blur.JPG) |
+|               card / logo / overlay               |
+| ![](examples/example-phew-card-logo-overlay.JPG)  |

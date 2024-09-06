@@ -1,4 +1,4 @@
-export type Config = RowConfig | ColumnConfig | SimpleConfig | CardConfig;
+export type Config = ColumnConfig | SimpleConfig | CardConfig;
 
 export type Color = string
 
@@ -15,12 +15,12 @@ type CommonConfig = {
   },
 }
 
-export type RowConfig = CommonConfig & {
-  layout: 'row';
-  variation: 'single' | 'double' | 'logo';
-  height?: number;
-  background?: 'blur' | Color
-};
+// export type RowConfig = CommonConfig & {
+//   layout: 'row';
+//   variation: 'single' | 'double' | 'logo';
+//   height?: number;
+//   background?: 'blur' | Color
+// };
 
 export type ColumnConfig = CommonConfig & {
   layout: 'column';
@@ -38,7 +38,7 @@ export type SimpleConfig = CommonConfig & {
 
 export type CardConfig = CommonConfig & {
   layout: 'card';
-  variation: 'double' | 'logo' | 'single' | 'color';
+  variation: 'full' | 'classic' | 'clean' | 'param' | 'logo';
   height?: number;
   border?: number;
   overlay?: boolean;

@@ -2,37 +2,35 @@ import { render } from './';
 
 describe('phew test', () => {
 
-  it('generate', async () => {
-    const file = 'examples/example.JPG';
-    const file1 = 'examples/example-small.JPG';
+  it.each([
+    ['examples/example.JPG'],
+    ['examples/example-alt.JPG']
+  ])('generate', async (file) => {
     const dest = 'examples'
 
     await render({
-      layout: 'row',
-      variation: 'double',
+      layout: 'card',
+      variation: 'full',
+      border: 40
     }, file, dest)
 
     await render({
-      layout: 'row',
-      variation: 'single',
-    }, file, dest)
-
-    await render({
-      layout: 'row',
-      variation: 'logo',
+      layout: 'card',
+      variation: 'classic',
+      border: 40
     }, file, dest)
 
     await render({
       layout: 'card',
       variation: 'logo',
-    }, file1, dest)
+    }, file, dest)
 
     await render({
       layout: 'card',
       variation: 'logo',
       border: 150,
       background: 'blur',
-    }, file1, dest)
+    }, file, dest)
 
     await render({
       layout: 'card',
@@ -42,12 +40,12 @@ describe('phew test', () => {
 
     await render({
       layout: 'card',
-      variation: 'double',
+      variation: 'clean',
     }, file, dest)
 
     await render({
       layout: 'card',
-      variation: 'double',
+      variation: 'clean',
       background: 'blur',
       font: {
         color: {
@@ -59,7 +57,7 @@ describe('phew test', () => {
 
     await render({
       layout: 'card',
-      variation: 'double',
+      variation: 'clean',
       height: 500,
       overlay: true,
       background: 'blur',
@@ -73,7 +71,7 @@ describe('phew test', () => {
 
     await render({
       layout: 'card',
-      variation: 'single',
+      variation: 'param',
     }, file, dest)
 
     expect(true).toBeTruthy()

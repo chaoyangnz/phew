@@ -1,11 +1,10 @@
 import { ReactNode } from 'react';
 import { Context } from './types';
-import rowDouble  from './templates/row-double';
-import rowSingle from './templates/row-single'
-import rowLogo from './templates/row-logo'
-import cardDouble from './templates/card-double'
+import cardFull  from './templates/card-full';
+import cardClassic from './templates/card-classic'
+import cardClean from './templates/card-clean'
+import cardParam from './templates/card-param'
 import cardLogo from './templates/card-logo'
-import cardSingle from './templates/card-single'
 
 export const templates = {}
 
@@ -13,11 +12,10 @@ export const register = (name: string, template: (context: Context) => ReactNode
   templates[name] = template
 }
 
-register('row-double', rowDouble)
-register('row-logo', rowLogo)
-register('row-single', rowSingle)
-register('card-single', cardSingle)
-register('card-double', cardDouble)
+register('card-full', cardFull)
+register('card-classic', cardClassic)
+register('card-clean', cardClean)
+register('card-param', cardParam)
 register('card-logo', cardLogo)
 
 
