@@ -1,7 +1,7 @@
 import { program } from 'commander';
 import { render } from './index';
 
-process.chdir(__dirname)
+// process.chdir(__dirname)
 
 const numberArg = (value) => value ? parseInt(value) : undefined
 

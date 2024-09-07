@@ -8,9 +8,24 @@ We use `JSX` to define the watermark templates, render it to `SVG` and composite
 - no quality loss
 - no metadata (EXIF) loss
 
+## Install
+
+Download the release files: 
+- `phew.exe`
+- `libvips-42.dll`
+- `libvips-cpp.dll`
+
+Then you can run `phew.exe` as command.
+
 ## Usage
 
-- Module
+- CLI
+
+```
+phew.exe card examples/example.JPG -o examples --variation classic
+```
+
+- Javascript module
 
 ```ts
 
@@ -24,11 +39,7 @@ render({
 
 ```
 
-- CLI
 
-```
-node phew.js card examples/example.JPG -o examples --variation classic
-```
 
 ## Examples
 

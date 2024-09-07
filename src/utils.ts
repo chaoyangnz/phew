@@ -3,7 +3,6 @@ import { Config } from './types';
 import { compact } from 'lodash'
 import format from 'date-format';
 import * as fs from 'fs';
-import sharp from 'sharp';
 
 export type PathVariables = {
   name: string,
@@ -65,12 +64,4 @@ export const parsePath = (pathVariables: PathVariables, dest?: string) => {
 
 export const dateFormat = (pattern: string, date = new Date()): string => {
   return format(pattern, date)
-}
-
-export const from = (input: string | Buffer): sharp.Sharp => {
-  return sharp(input).keepMetadata().keepExif().keepIccProfile()
-}
-
-export const create = (create: sharp.Create): sharp.Sharp => {
-  return sharp({create}).keepMetadata().keepExif().keepIccProfile()
 }

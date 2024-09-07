@@ -1,10 +1,9 @@
-import { OutputInfo, Metadata } from 'sharp';
-import exifRead from 'exif-reader';
-import { logos, fonts } from './assets';
 import satori from 'satori';
+import { OutputInfo, Metadata, from, exifRead } from './img';
+import { logos, fonts } from './assets';
 import { templates } from './templates';
-import { dateFormat, extractPathVariables, from, parsePath } from './utils';
-import { Config, Context, Spec } from './types';
+import { dateFormat, extractPathVariables, parsePath } from './utils';
+import type { Config, Context, Spec } from './types';
 
 export abstract class Renderer {
   metadata: Metadata;
