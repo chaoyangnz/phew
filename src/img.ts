@@ -1,12 +1,16 @@
-import sharp from '@img/sharp-win32-x64/sharp.node'
-export type { OutputInfo, Metadata } from '@img/sharp-win32-x64/sharp.node'
-import exif from 'exif-reader'
+// require('@img/sharp-win32-x64/sharp.node')
 
-export const from = (input: string | Buffer): sharp.Sharp => {
+export type { OutputInfo, Metadata, Sharp, Create } from 'sharp'
+import exif from 'exif-reader'
+import sharp from 'sharp'
+
+// console.log(sharp)
+
+export const from = (input: string | Buffer): Sharp => {
     return sharp(input).keepMetadata().keepExif().keepIccProfile()
 }
 
-export const create = (create: sharp.Create): sharp.Sharp => {
+export const create = (create: Create): Sharp => {
     return sharp({create}).keepMetadata().keepExif().keepIccProfile()
 }
 

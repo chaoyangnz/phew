@@ -4,9 +4,9 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "prebuild": "bun embed.js",
+    "prebuild": "bun embed.js && bun patch.js",
     "build": "bun build src/main.ts --compile --outfile dist/phew.exe",
-    "postbuild": "cp node_modules/@img/sharp-win32-x64/lib/*.dll dist/"
+    "postbuild": "cp node_modules/@img/sharp-win32-x64/lib/*.dll dist/ && cp dist/* ../"
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -15,6 +15,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@img/sharp-win32-x64": "^0.33.5",
     "commander": "^12.1.0",
     "date-format": "^4.0.14",
     "exif-reader": "^2.0.1",

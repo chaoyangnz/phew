@@ -1,6 +1,9 @@
 const fs = require('fs')
 const path = require('path')
 
+// This file is to manually embeded assets into code
+// Bun can also embed assets https://bun.sh/docs/bundler/executables#embed-n-api-addons
+
 async function* walk(dir) {
   for await (const d of await fs.promises.opendir(dir)) {
     const entry = path.join(dir, d.name);
