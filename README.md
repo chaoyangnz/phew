@@ -17,6 +17,8 @@ Download the release files:
 
 Then you can run `phew.exe` as command.
 
+> If you get errors: `Fail to load Library`, then you can put two `.dll` files to `C:\Windows`.
+
 ## Usage
 
 - CLI
@@ -39,6 +41,12 @@ render({
 
 ```
 
+
+- Lightroom
+
+In `Export` dialog, set the command through `Any Command`
+
+![lightroom.png](lightroom.png)
 
 
 ## Examples
