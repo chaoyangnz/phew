@@ -41,13 +41,13 @@ render({
 
 ```
 
-
 - Lightroom
 
-In `Export` dialog, set the command through `Any Command`
+In `Export` dialog, the last section `Post-Pocessing`, select `Open in Other Application...`, set the bat script `phew.bat`.
+
+Then you can edit `phew.bat` as you need to customise the parameters: layout, other tweaks etc.
 
 ![lightroom.png](lightroom.png)
-
 
 ## Examples
 
