@@ -1,88 +1,83 @@
-import { ReactNode } from 'react';
-import { Context, ImpressionConfig } from '../types';
+import type { ReactNode } from 'react'
+import type { Context, ImpressionConfig } from '../types'
+import { styles } from './styles.ts'
 
-export default ($: Context): ReactNode => {
-  const boxCss = {
-    width: 200,
-    border: `solid 3px ${$.font.color.secondary}`,
-    borderRadius: 10,
-    marginRight: 50,
-    fontStyle: 'italic'
-  }
+export default ($: Context<ImpressionConfig>): ReactNode => {
 
-  const debug = {
-    // border: '3px solid red',
-  }
-
-  const config = $.config as ImpressionConfig
+  // text box: F, ISO, S
+  const box = (letters: string) => (
+      <p style={{
+        width: 180,
+        border: `solid 3px ${$.font.color.secondary}`,
+        borderRadius: 10,
+        marginRight: 50,
+        fontStyle: 'italic'
+      }}>
+        <p style={{margin: '0 auto'}}>{letters}</p>
+      </p>
+  )
 
   return (
-    <div
-      style={{
+      <div style={{
         height: '100%',
         width: '100%',
         display: 'flex',
-        // flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         fontFamily: 'Arial',
         fontSize: $.font.size.primary,
         fontWeight: 'bold',
         color: $.font.color.primary,
-        lineHeight: 2,
-      }}
-    >
-      <p style={{ ...debug, width: config.size.start }}>
-
-
-        <div
-          style={{
+        lineHeight: 2
+      }}>
+        <p style={{...styles.debug, width: $.config.size.start}}>
+          <p style={{
+            ...styles.debug,
+            ...styles.center,
+            // flex container
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
             justifyContent: 'center',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        >
-          <p>
+            alignItems: 'flex-start',
+          }}>
             <img
-              style={{
-                width: 200,
-                height: 200,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-              }}
-              src={$.camera.logo}
+                style={{
+                  ...styles.debug,
+                  width: 300,
+                  height: 300,
+                  // ...styles.center
+                }}
+                src={$.camera.logo}
             />
-          </p>
 
-          <p style={{ display: 'flex', width: 400, ...debug }}>
-            <p style={{ ...boxCss }}>
-              <p style={{ margin: '0 auto' }}>F</p>
+            <p style={{display: 'flex', ...styles.debug}}>
+              {box('F')}
+              <p>{$.exposure.aperture}</p>
             </p>
-            <p>{$.exposure.aperture}</p>
-          </p>
 
-          <p style={{ display: 'flex', width: 400 }}>
-            <p style={{ ...boxCss }}>
-              <p style={{ margin: '0 auto' }}>ISO</p>
+            <p style={{display: 'flex', ...styles.debug}}>
+              {box('ISO')}
+              <p>{$.exposure.iso}</p>
             </p>
-            <p>{$.exposure.iso}</p>
-          </p>
 
-          <p style={{ display: 'flex', width: 400 }}>
-            <p style={{ ...boxCss }}>
-              <p style={{ margin: '0 auto' }}>S</p>
+            <p style={{display: 'flex', ...styles.debug}}>
+              {box('S')}
+              <p>{$.exposure.shutter}</p>
             </p>
-            <p>{$.exposure.shutter}</p>
           </p>
-        </div>
-      </p>
 
-      <p style={{ ...debug, width: config.size.end }}>
-      </p>
-    </div>
+        </p>
+
+        <div style={{
+          ...styles.debug,
+          width: $.original.width,
+          height: $.original.height,
+          boxShadow: '-16px 0 40px 0 rgba(0, 0, 0, 0.3), 16px 0 40px 0 rgba(0, 0, 0, 0.3), 0 -16px 40px 0 rgba(0, 0, 0, 0.3), 0 16px 40px 0 rgba(0, 0, 0, 0.3)'
+        }}></div>
+
+        <p style={{...styles.debug, width: $.config.size.end}}></p>
+      </div>
   );
 }
 

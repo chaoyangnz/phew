@@ -1,5 +1,5 @@
 import { Renderer } from './base';
-import { ImpressionConfig, Spec } from './types';
+import type { ImpressionConfig, Spec } from './types'
 import { defaultsDeep } from 'lodash'
 
 export class ImpressionRenderer extends Renderer {

@@ -63,7 +63,7 @@ export type Spec = {
 }
 
 
-export type Context = {
+export type Context<C extends Config> = {
   background: {
     width: number,
     height: number,
@@ -101,5 +101,5 @@ export type Context = {
     model: string,
   },
   datetime: string,
-  config: Config
+  config: C
 }

@@ -26,7 +26,7 @@ export abstract class Renderer {
 
     const spec = this.spec();
 
-    const context: Context = {
+    const context: Context<Config> = {
       background: {
         width: spec.background.width,
         height: spec.background.height,

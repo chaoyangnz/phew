@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
-import { Context } from '../types';
+import type { ReactNode } from 'react'
+import type { CardConfig, Context } from '../types'
 
-export default ($: Context): ReactNode => {
+export default ($: Context<CardConfig>): ReactNode => {
 
   const textCss = {fontSize: $.font.size.primary, color: $.font.color.primary, fontWeight: 'bold'}
 
