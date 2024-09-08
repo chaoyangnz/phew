@@ -10,8 +10,9 @@ We use `JSX` to define the watermark templates, render it to `SVG` and composite
 
 ## Install
 
-Download the release files: 
+Download the released files: 
 - `phew.exe`
+- `phew.bat`
 - `libvips-42.dll`
 - `libvips-cpp.dll`
 
@@ -43,9 +44,9 @@ render({
 
 - Lightroom
 
-In `Export` dialog, the last section `Post-Pocessing`, select `Open in Other Application...`, set the bat script `phew.bat`.
+In `Export` dialog, the last section `Post-Pocessing`, select `Open in Other Application...`, choose the bat script `phew.bat` location.
 
-Then you can edit `phew.bat` as you need to customise the parameters: layout, other tweaks etc.
+You can edit `phew.bat` as you need to customise the parameters: layout, other tweaks etc.
 
 ![lightroom.png](lightroom.png)
 
