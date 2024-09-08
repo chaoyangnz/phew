@@ -1,14 +1,13 @@
-import satori from 'satori';
-import { OutputInfo, Metadata, from, exifRead } from './img';
-import { logos, fonts } from './assets';
-import { templates } from './templates';
+import { type OutputInfo, type Metadata, from, exifRead } from './img';
+import { logos } from './assets';
+import { template } from './templates'
 import { dateFormat, extractPathVariables, parsePath } from './utils';
 import type { Config, Context, Spec } from './types';
 
 export abstract class Renderer {
-  metadata: Metadata;
-  original: Buffer;
-  info: OutputInfo;
+  metadata!: Metadata;
+  original!: Buffer;
+  info!: OutputInfo;
 
   protected constructor(
     public file: string,
@@ -50,32 +49,11 @@ export abstract class Renderer {
       ...exif,
       config: this.config
     };
-    const template =
-      await templates[`${this.config.layout}-${this.config.variation}`];
-    const svg = await satori(template(context), {
-      width: context.width,
-      height: context.height,
-      fonts: [
-        {
-          name: 'Roboto',
-          data: fonts['Roboto-Regular.ttf'],
-          weight: 400,
-          style: 'normal',
-        },
-        {
-          name: 'Arial',
-          data: fonts['Arial.ttf'],
-          weight: 400,
-          style: 'normal',
-        },
-      ],
-      embedFont: false,
-    });
+    const svg = await template(`${this.config.layout}-${this.config.variation}`, context);
     const watermark = Buffer.from(svg);
     // fs.writeFileSync('1.svg', s)
 
-
-
+    console.time('render background')
     const background =
       spec.background.background != 'blur'
         ? await from(this.original)
@@ -102,8 +80,12 @@ export abstract class Renderer {
             .blur(200)
             .toBuffer();
 
+    console.timeEnd('render background')
+
     const dst = parsePath(extractPathVariables(this.file, this.config), dest)
-    const final = from(background)
+
+    console.time('render composition')
+    const final = await from(background)
       .composite([
         {
           input: this.original,
@@ -120,8 +102,12 @@ export abstract class Renderer {
         IFD0: {
           Software: `${exif.software} + Phew`
         }
-      })
-    await final.toFile(dst);
+      }).toBuffer()
+    console.timeEnd('render composition')
+
+    console.time('write file')
+    await from(final).toFile(dst);
+    console.timeEnd('write file')
 
     return dst;
   }
@@ -149,15 +135,19 @@ const brand = (make: string): string => {
   return brand || 'empty';
 };
 
-const parseExif = (buffer: Buffer) => {
+const parseExif = (buffer?: Buffer) => {
+  if (!buffer) throw Error('No Exif data found')
   const exif = exifRead(buffer);
-  const focal = exif.Photo.FocalLength;
-  const aperture = exif.Photo.FNumber;
+  if (!exif.Photo || !exif.Image) throw Error('No Exif data found')
+  const focal = exif.Photo.FocalLength === undefined ? '' : exif.Photo.FocalLength.toString();
+  const aperture = exif.Photo.FNumber === undefined ? '' : exif.Photo.FNumber.toString()
   const shutter =
-    exif.Photo.ExposureTime >= 1
-      ? exif.Photo.ExposureTime.toString()
-      : '1/' + Math.round(1 / exif.Photo.ExposureTime);
-  const iso = exif.Photo.ISOSpeedRatings;
+      exif.Photo.ExposureTime === undefined
+          ? ''
+          : exif.Photo.ExposureTime >= 1
+            ? exif.Photo.ExposureTime.toString()
+            : '1/' + Math.round(1 / exif.Photo.ExposureTime);
+  const iso = exif.Photo?.ISOSpeedRatings === undefined ? '' : exif.Photo?.ISOSpeedRatings.toString();
 
   return {
     exposure: {
@@ -168,15 +158,16 @@ const parseExif = (buffer: Buffer) => {
       formatted: `${focal}mm 𝓕${aperture} ${shutter}s ISO${iso}`,
     },
     camera: {
-      make: exif.Image.Make,
-      model: exif.Image.Model,
+      make: exif.Image.Make || '',
+      model: exif.Image.Model || '',
+      // @ts-ignore
       logo: logos[`${brand(exif.Image.Make)}.png`],
     },
     len: {
-      make: exif.Photo.LensMake,
-      model: exif.Photo.LensModel,
+      make: exif.Photo.LensMake || '',
+      model: exif.Photo.LensModel || '',
     },
     datetime: dateFormat('yyyy-MM-dd hh:mm', exif.Photo.DateTimeOriginal),
-    software: exif.Image.Software
+    software: exif.Image.Software || ''
   }
 }

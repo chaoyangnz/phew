@@ -1,28 +1,12 @@
 import { Renderer } from './base';
-import { CardConfig, Spec } from './types';
-import { defaultsDeep } from 'lodash'
+import type { CardConfig, Spec } from './types'
 
 export class CardRenderer extends Renderer {
   constructor(
     file: string,
     public config: CardConfig,
   ) {
-    super(file, defaultsDeep(config, {
-      size: 400,
-      border: 60,
-      overlay: false,
-      font: {
-        color: {
-          primary: '#000000ff',
-          secondary: '#444444ff'
-        },
-        size: {
-          primary: 50,
-          secondary: 40
-        }
-      },
-      background: '#fff',
-    }));
+    super(file, config);
   }
 
   spec(): Spec {

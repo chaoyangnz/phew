@@ -3,14 +3,14 @@ export type Config = ColumnConfig | CardConfig | ImpressionConfig;
 export type Color = string
 
 type CommonConfig = {
-  font?: {
-    color?: {
-      primary?: string
-      secondary?: string
+  font: {
+    color: {
+      primary: string
+      secondary: string
     },
-    size?: {
-      primary?: number
-      secondary?: number
+    size: {
+      primary: number
+      secondary: number
     }
   },
 }
@@ -32,19 +32,56 @@ export type ColumnConfig = CommonConfig & {
 export type CardConfig = CommonConfig & {
   layout: 'card';
   variation: 'full' | 'classic' | 'clean' | 'param' | 'logo';
-  size?: number;
-  border?: number;
-  overlay?: boolean;
-  background?: string
+  size: number;
+  border: number;
+  overlay: boolean;
+  background: string
 };
+
+export const defaultCardConfig = {
+  layout: 'card',
+  variation: 'full',
+  size: 400,
+  border: 60,
+  overlay: false,
+  font: {
+    color: {
+      primary: '#000000ff',
+      secondary: '#444444ff'
+    },
+    size: {
+      primary: 50,
+      secondary: 40
+    }
+  },
+  background: '#fff',
+}
 
 export type ImpressionConfig = CommonConfig & {
   layout: 'impression';
   variation: 'around' | 'left' | 'right' | 'bottom';
-  size?: { start?: number, end?: number };
-  border?: number
-  background?: 'blur' | Color
+  size: { start: number, end: number };
+  border: number
+  background: 'blur' | Color
 };
+
+export const defaultImpressionConfig = {
+  layout: 'impression',
+  variation: 'around',
+  size: {start: 1200, end: 1200},
+  border: 160,
+  font: {
+    color: {
+      primary: '#000000ff',
+      secondary: '#444444ff'
+    },
+    size: {
+      primary: 80,
+      secondary: 60
+    }
+  },
+  background: '#fff',
+}
 
 export type Spec = {
   background: { width: number; height: number; background: string }
@@ -85,10 +122,10 @@ export type Context<C extends Config> = {
     },
   },
   exposure: {
-    focal: number,
-    aperture: number,
+    focal: string,
+    aperture: string,
     shutter: string,
-    iso: number,
+    iso: string,
     formatted: string
   },
   camera: {

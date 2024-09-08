@@ -26,7 +26,7 @@ async function main() {
     const dataUrl =`data:${mime};${encoding},${data}`
     lines.push(`  '${name}': '${dataUrl}',`)
   }
-  lines.push(`}`);
+  lines.push(`} as const`);
 
   lines.push('export const fonts = {')
   for await (const p of walk('assets/font')) {
@@ -35,7 +35,7 @@ async function main() {
     const data = fs.readFileSync(p).toString('base64');
     lines.push(`  '${name}': Buffer.from('${data}', 'base64'),`)
   }
-  lines.push(`}`);
+  lines.push(`} as const`);
 
   fs.writeFileSync('src/assets.ts', lines.join('\n'), 'utf8');
 }

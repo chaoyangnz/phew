@@ -1,6 +1,7 @@
 import path from 'path';
-import { Config } from './types';
+import type { Config } from './types'
 import { compact } from 'lodash'
+// @ts-ignore
 import format from 'date-format';
 import * as fs from 'fs';
 

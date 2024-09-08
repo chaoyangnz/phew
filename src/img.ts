@@ -6,11 +6,11 @@ import sharp from 'sharp'
 
 // console.log(sharp)
 
-export const from = (input: string | Buffer): Sharp => {
+export const from = (input: string | Buffer): sharp.Sharp => {
     return sharp(input).keepMetadata().keepExif().keepIccProfile()
 }
 
-export const create = (create: Create): Sharp => {
+export const create = (create: sharp.Create): sharp.Sharp => {
     return sharp({create}).keepMetadata().keepExif().keepIccProfile()
 }
 
