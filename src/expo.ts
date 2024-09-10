@@ -1,11 +1,11 @@
 import { Renderer } from './base';
-import { type DeepPartial, type ImpressionConfig, type Spec } from './types';
+import { type DeepPartial, type ExpoConfig, type Spec } from './types';
 import { defaultsDeep } from 'lodash';
 
-export class ImpressionRenderer extends Renderer<ImpressionConfig> {
-  defaultConfig(config: DeepPartial<ImpressionConfig>): ImpressionConfig {
+export class ExpoRenderer extends Renderer<ExpoConfig> {
+  defaultConfig(config: DeepPartial<ExpoConfig>): ExpoConfig {
     return defaultsDeep(config, {
-      layout: 'impression',
+      layout: 'expo',
       variation: 'around',
       size: { start: 1200, end: 1200 },
       border: 160,

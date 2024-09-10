@@ -76,8 +76,8 @@ program
   });
 
 program
-  .command('impression <input> [output]')
-  .description('impression layout')
+  .command('expo <input> [output]')
+  .description('expo layout')
   .option('--variation <string>', 'variation: around, left, right, bottom', 'around')
   .option('--height <number>', 'height of watermark', numberArg)
   .option('--border <number>', 'border of photo', numberArg)
@@ -112,7 +112,7 @@ program
     } = options;
     await render(
       {
-        layout: 'impression',
+        layout: 'expo',
         variation,
         size: {
           start: sizeStart,

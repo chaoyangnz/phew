@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import type { Context, ImpressionConfig } from '../types';
+import type { Context, ExpoConfig } from '../types';
 import { styles } from './styles.ts';
 
-export default ($: Context<ImpressionConfig>): ReactNode => {
+export default ($: Context<ExpoConfig>): ReactNode => {
   // text box: F, ISO, S
   const box = (letters: string) => (
     <p

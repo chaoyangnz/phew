@@ -3,9 +3,7 @@ import { render } from './';
 
 describe('phew test', () => {
   describe('card', () => {
-    it.each([['examples/example.JPG'], ['examples/example-alt.JPG']])(
-      'generate',
-      async (file) => {
+    it.each([['examples/landscape.jpg'], ['examples/square.jpg']])('card', async (file) => {
         const dest = 'examples';
 
         await render(
@@ -118,67 +116,61 @@ describe('phew test', () => {
     );
   });
 
-  describe('impression', () => {
-    const file = 'examples/example-v.JPG';
-    const dest = 'examples';
+  describe('expo', () => {
 
-    it('around', async () => {
+    it.each([['examples/portrait.jpg'], ['examples/square.jpg']])('expo', async (file) => {
+      const dest = 'examples';
+
       await render(
-        {
-          layout: 'impression',
-          variation: 'around',
-          size: { start: 1200, end: 1200 },
-          border: 160
-        },
-        file,
-        dest
+          {
+            layout: 'expo',
+            variation: 'around',
+            size: {start: 1200, end: 1200},
+            border: 160
+          },
+          file,
+          dest
       );
-    });
 
-    it('around blur', async () => {
       await render(
-        {
-          layout: 'impression',
-          variation: 'around',
-          size: { start: 1200, end: 1200 },
-          border: 160,
-          background: 'blur',
-          font: {
-            color: {
-              primary: '#ffffffff',
-              secondary: '#ccccccff'
+          {
+            layout: 'expo',
+            variation: 'around',
+            size: {start: 1200, end: 1200},
+            border: 160,
+            background: 'blur',
+            font: {
+              color: {
+                primary: '#ffffffff',
+                secondary: '#ccccccff'
+              }
             }
-          }
-        },
-        file,
-        dest
+          },
+          file,
+          dest
       );
-    });
 
-    it('left', async () => {
       await render(
-        {
-          layout: 'impression',
-          variation: 'left',
-          size: { start: 1200, end: 200 },
-          border: 160
-        },
-        file,
-        dest
+          {
+            layout: 'expo',
+            variation: 'left',
+            size: {start: 1200, end: 200},
+            border: 160
+          },
+          file,
+          dest
       );
-    });
 
-    it('right', async () => {
       await render(
-        {
-          layout: 'impression',
-          variation: 'right',
-          size: { start: 200, end: 1200 },
-          border: 160
-        },
-        file,
-        dest
+          {
+            layout: 'expo',
+            variation: 'right',
+            size: {start: 200, end: 1200},
+            border: 160
+          },
+          file,
+          dest
       );
-    });
+    }, 7200000)
   });
 });

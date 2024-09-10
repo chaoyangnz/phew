@@ -1,6 +1,6 @@
 import { type Config, type DeepPartial } from './types';
 import { CardRenderer } from './card';
-import { ImpressionRenderer } from './impression';
+import { ExpoRenderer } from './expo';
 
 export const render = async (config: DeepPartial<Config>, file: string, dest?: string): Promise<void> => {
   let output = '';
@@ -9,8 +9,8 @@ export const render = async (config: DeepPartial<Config>, file: string, dest?: s
     case 'card':
       output = await new CardRenderer(file, dest, config).render();
       break;
-    case 'impression':
-      output = await new ImpressionRenderer(file, dest, config).render();
+    case 'expo':
+      output = await new ExpoRenderer(file, dest, config).render();
       break;
     default:
       console.log('not implemented');

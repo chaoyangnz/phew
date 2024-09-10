@@ -25,7 +25,7 @@ Then you can run `phew.exe` as command.
 - CLI
 
 ```
-phew.exe card examples/example.JPG -o examples --variation classic
+phew.exe card examples/landscape.jpg -o examples --variation classic
 ```
 
 - Javascript module
@@ -56,38 +56,38 @@ You can edit `phew.bat` as you need to customise the parameters: layout, other t
 |                    layout / gallery                     |
 |:-------------------------------------------------------:|
 |                       card / full                       |
-|        ![](examples/example-phew-card-full.JPG)         |
+|        ![](examples/landscape-phew-card-full.jpg)         |
 |                     card / classic                      |
-|       ![](examples/example-phew-card-classic.JPG)       |
+|       ![](examples/landscape-phew-card-classic.jpg)       |
 |                       card / logo                       | 
-|        ![](examples/example-phew-card-logo.JPG)         |
+|        ![](examples/landscape-phew-card-logo.jpg)         |
 |                      card / clean                       |
-|        ![](examples/example-phew-card-clean.JPG)        |
+|        ![](examples/landscape-phew-card-clean.jpg)        |
 |                   card / clean / blur                   |
-|     ![](examples/example-phew-card-clean-blur.JPG)      |
+|     ![](examples/landscape-phew-card-clean-blur.jpg)      |
 |                      card / param                       |
-|        ![](examples/example-phew-card-param.JPG)        |
+|        ![](examples/landscape-phew-card-param.jpg)        |
 |                       card / logo                       |
-|      ![](examples/example-alt-phew-card-logo.JPG)       |
+|      ![](examples/square-phew-card-logo.jpg)       |
 |                   card / logo / blur                    |
-|    ![](examples/example-alt-phew-card-logo-blur.JPG)    |
+|    ![](examples/square-phew-card-logo-blur.jpg)    |
 |                  card / logo / overlay                  |
-|    ![](examples/example-phew-card-logo-overlay.JPG)     |
+|    ![](examples/landscape-phew-card-logo-overlay.jpg)     |
 |                      card / param                       |
-|        ![](examples/example-phew-card-param.JPG)        |
+|        ![](examples/landscape-phew-card-param.jpg)        |
 |                       card / logo                       |
-|      ![](examples/example-alt-phew-card-logo.JPG)       |
+|      ![](examples/square-phew-card-logo.jpg)       |
 |                   card / logo / blur                    |
-|    ![](examples/example-alt-phew-card-logo-blur.JPG)    |
+|    ![](examples/square-phew-card-logo-blur.jpg)    |
 |                  card / logo / overlay                  |
-|    ![](examples/example-phew-card-logo-overlay.JPG)     |
+|    ![](examples/landscape-phew-card-logo-overlay.jpg)     |
 |                                                         |
 |                                                         |
-|                   impression / around                   |
-|   ![](examples/example-v-phew-impression-around.JPG)    |
-|               impression / around / blur                |
-| ![](examples/example-v-phew-impression-around-blur.JPG) |
-|                    impression / left                    |
-|    ![](examples/example-v-phew-impression-left.JPG)     |
-|                   impression / right                    |
-|    ![](examples/example-v-phew-impression-right.JPG)    |
+|                   expo / around                   |
+|   ![](examples/portrait-phew-expo-around.jpg)    |
+|               expo / around / blur                |
+| ![](examples/portrait-phew-expo-around-blur.jpg) |
+|                    expo / left                    |
+|    ![](examples/portrait-phew-expo-left.jpg)     |
+|                   expo / right                    |
+|    ![](examples/portrait-phew-expo-right.jpg)    |

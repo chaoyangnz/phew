@@ -1,4 +1,4 @@
-export type Config = ColumnConfig | CardConfig | ImpressionConfig;
+export type Config = ColumnConfig | CardConfig | ExpoConfig;
 
 export type Color = string;
 
@@ -40,8 +40,8 @@ export type CardConfig = CommonConfig & {
   background: string;
 };
 
-export type ImpressionConfig = CommonConfig & {
-  layout: 'impression';
+export type ExpoConfig = CommonConfig & {
+  layout: 'expo';
   variation: 'around' | 'left' | 'right' | 'bottom';
   size: { start: number; end: number };
   border: number;
