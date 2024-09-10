@@ -26,6 +26,9 @@ export class CardRenderer extends Renderer<CardConfig> {
         spread: 6,
         blur: 15
       },
+      output: {
+        quality: 95
+      },
       background: '#fff'
     });
   }

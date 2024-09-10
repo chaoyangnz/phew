@@ -20,6 +20,11 @@ program
   .option('--secondary-font-color <string>', 'primary font color')
   .option('--primary-font-size <number>', 'primary font size', numberArg)
   .option('--secondary-font-size <number>', 'primary font size', numberArg)
+  .option('--shadow-color <string>', 'shadow color')
+  .option('--shadow-margin <number>', 'shadow margin', numberArg)
+  .option('--shadow-spread <number>', 'shadow spread', numberArg)
+  .option('--shadow-blur <number>', 'shadow blur', numberArg)
+  .option('--output-quality <number>', 'output quality', numberArg)
   .action(async (input, output, options) => {
     const {
       variation,
@@ -30,7 +35,12 @@ program
       primaryFontSize,
       secondaryFontSize,
       border,
-      overlay
+      overlay,
+      shadowColor,
+      shadowMargin,
+      shadowOffset,
+      shadowBlur,
+      outputQuality
     } = options;
     await render(
       {
@@ -49,7 +59,16 @@ program
             secondary: secondaryFontSize
           }
         },
-        overlay: overlay
+        overlay: overlay,
+        shadow: {
+          color: shadowColor,
+          margin: shadowMargin,
+          spread: shadowOffset,
+          blur: shadowBlur
+        },
+        output: {
+          quality: outputQuality
+        }
       },
       input,
       output
@@ -73,6 +92,7 @@ program
   .option('--shadow-margin <number>', 'shadow margin', numberArg)
   .option('--shadow-spread <number>', 'shadow spread', numberArg)
   .option('--shadow-blur <number>', 'shadow blur', numberArg)
+  .option('--output-quality <number>', 'output quality', numberArg)
   .action(async (input, output, options) => {
     const {
       variation,
@@ -87,7 +107,8 @@ program
       shadowColor,
       shadowMargin,
       shadowOffset,
-      shadowBlur
+      shadowBlur,
+      outputQuality
     } = options;
     await render(
       {
@@ -114,6 +135,9 @@ program
           margin: shadowMargin,
           spread: shadowOffset,
           blur: shadowBlur
+        },
+        output: {
+          quality: outputQuality
         }
       },
       input,

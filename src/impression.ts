@@ -25,6 +25,9 @@ export class ImpressionRenderer extends Renderer<ImpressionConfig> {
         spread: 6,
         blur: 15
       },
+      output: {
+        quality: 95
+      },
       background: '#fff'
     });
   }

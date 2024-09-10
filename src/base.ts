@@ -152,7 +152,7 @@ export abstract class Renderer<T extends Config> {
     console.timeEnd('render composition');
 
     console.time('write file');
-    await from(final).toFile(dst);
+    await from(final).jpeg({ quality: this.config.output.quality }).toFile(dst);
     console.timeEnd('write file');
 
     return dst;

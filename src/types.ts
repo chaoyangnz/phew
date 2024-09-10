@@ -19,6 +19,9 @@ type CommonConfig = {
     spread: number;
     blur: number;
   };
+  output: {
+    quality: number;
+  };
 };
 
 export type ColumnConfig = CommonConfig & {
