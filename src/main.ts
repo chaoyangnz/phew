@@ -1,12 +1,12 @@
 import { program } from 'commander';
 import { render } from './index';
-import { version } from '../package.json'
+import { version } from '../package.json';
 
 // process.chdir(__dirname)
 
 const numberArg = (value: string) => (value ? parseInt(value) : NaN);
 
-program.version(version)
+program.version(version);
 
 program
   .command('card <input> [output]')

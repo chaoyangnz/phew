@@ -1,7 +1,34 @@
 import { Renderer } from './base';
-import { type ImpressionConfig, type Spec } from './types';
+import { type DeepPartial, type ImpressionConfig, type Spec } from './types';
+import { defaultsDeep } from 'lodash';
 
 export class ImpressionRenderer extends Renderer<ImpressionConfig> {
+  defaultConfig(config: DeepPartial<ImpressionConfig>): ImpressionConfig {
+    return defaultsDeep(config, {
+      layout: 'impression',
+      variation: 'around',
+      size: { start: 1200, end: 1200 },
+      border: 160,
+      font: {
+        color: {
+          primary: config.background === 'blur' ? '#ffffffff' : '#000000ff',
+          secondary: config.background === 'blur' ? '#ccccccff' : '#444444ff'
+        },
+        size: {
+          primary: 80,
+          secondary: 60
+        }
+      },
+      shadow: {
+        color: config.background === 'blur' ? '#ffffffff' : '#000000ff',
+        margin: config.background === 'blur' ? 40 : 0,
+        spread: 6,
+        blur: 15
+      },
+      background: '#fff'
+    });
+  }
+
   spec(): Spec {
     return {
       background: {

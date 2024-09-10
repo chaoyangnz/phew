@@ -2,19 +2,20 @@ import { type OutputInfo, type Metadata, from, exifRead } from './img';
 import { logos } from './assets';
 import { template } from './templates';
 import { dateFormat, extractPathVariables, normalisePath } from './utils';
-import type { Config, Context, Spec } from './types';
-import * as fs from 'node:fs';
+import type { Config, Context, DeepPartial, Spec } from './types';
 
 export abstract class Renderer<T extends Config> {
   metadata!: Metadata;
   original!: Buffer;
   info!: OutputInfo;
+  config!: T;
 
   constructor(
     public file: string,
     public dest: string | undefined,
-    public config: T
+    config: DeepPartial<T>
   ) {
+    this.config = this.defaultConfig(config);
     console.log(file, dest, config);
   }
 
@@ -158,6 +159,8 @@ export abstract class Renderer<T extends Config> {
   }
 
   abstract spec(): Spec;
+
+  abstract defaultConfig(conf: DeepPartial<T>): T;
 }
 
 const brand = (make: string): string => {
