@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-import type { CardConfig, Context } from '../types'
+import type { ReactNode } from 'react';
+import type { CardConfig, Context } from '../types';
 
 export default ($: Context<CardConfig>): ReactNode => {
   return (
@@ -12,18 +12,12 @@ export default ($: Context<CardConfig>): ReactNode => {
         alignItems: 'center',
         paddingLeft: 100,
         paddingRight: 100,
-        fontFamily: 'Arial',
+        fontFamily: 'Arial'
       }}
     >
-
       <p style={{ flex: '1 0 0' }}>
-        <img
-          style={{ width: 180, height: 180, marginLeft: 'auto', marginRight: 'auto' }}
-          src={$.camera.logo}
-        />
+        <img style={{ width: 180, height: 180, marginLeft: 'auto', marginRight: 'auto' }} src={$.camera.logo} />
       </p>
-
     </div>
   );
-}
-
+};

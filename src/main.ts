@@ -3,12 +3,11 @@ import { render } from './index';
 
 // process.chdir(__dirname)
 
-const numberArg = (value) => value ? parseInt(value) : undefined
+const numberArg = (value: string) => (value ? parseInt(value) : NaN);
 
 program
-  .command('card <input>')
+  .command('card <input> [output]')
   .description('card layout')
-  .option('-o, --output <string>', 'output photo path')
   .option('--variation <string>', 'variation: full, classic, clean, param, logo', 'full')
   .option('--size <number>', 'size of watermark', numberArg)
   .option('--border <number>', 'border of photo', numberArg)
@@ -18,32 +17,45 @@ program
   .option('--secondary-font-color <string>', 'primary font color')
   .option('--primary-font-size <number>', 'primary font size', numberArg)
   .option('--secondary-font-size <number>', 'primary font size', numberArg)
-  .action(async (input, options) => {
-    const {output, variation, size, background, primaryFontColor, secondaryFontColor, primaryFontSize, secondaryFontSize, border, overlay} = options;
-    await render({
-      layout: 'card',
+  .action(async (input, output, options) => {
+    const {
       variation,
       size,
-      border,
       background,
-      font: {
-        color: {
-          primary: primaryFontColor,
-          secondary: secondaryFontColor
+      primaryFontColor,
+      secondaryFontColor,
+      primaryFontSize,
+      secondaryFontSize,
+      border,
+      overlay
+    } = options;
+    await render(
+      {
+        layout: 'card',
+        variation,
+        size,
+        border,
+        background,
+        font: {
+          color: {
+            primary: primaryFontColor,
+            secondary: secondaryFontColor
+          },
+          size: {
+            primary: primaryFontSize,
+            secondary: secondaryFontSize
+          }
         },
-        size: {
-          primary: primaryFontSize,
-          secondary: secondaryFontSize
-        }
+        overlay: overlay
       },
-      overlay: overlay
-    }, input, output);
-  })
+      input,
+      output
+    );
+  });
 
 program
-  .command('impression <input>')
+  .command('impression <input> [output]')
   .description('impression layout')
-  .option('-o, --output <string>', 'output photo path')
   .option('--variation <string>', 'variation: around, left, right, bottom', 'around')
   .option('--height <number>', 'height of watermark', numberArg)
   .option('--border <number>', 'border of photo', numberArg)
@@ -54,28 +66,56 @@ program
   .option('--secondary-font-color <string>', 'primary font color')
   .option('--primary-font-size <number>', 'primary font size', numberArg)
   .option('--secondary-font-size <number>', 'primary font size', numberArg)
-  .action(async (input, options) => {
-    const {output, variation, sizeStart, sizeEnd, background, primaryFontColor, secondaryFontColor, primaryFontSize, secondaryFontSize, border} = options;
-    await render({
-      layout: 'impression',
+  .option('--shadow-color <string>', 'shadow color')
+  .option('--shadow-margin <number>', 'shadow margin', numberArg)
+  .option('--shadow-spread <number>', 'shadow spread', numberArg)
+  .option('--shadow-blur <number>', 'shadow blur', numberArg)
+  .action(async (input, output, options) => {
+    const {
       variation,
-      size: {
-        start: sizeStart,
-        end: sizeEnd
-      },
-      border,
+      sizeStart,
+      sizeEnd,
       background,
-      font: {
-        color: {
-          primary: primaryFontColor,
-          secondary: secondaryFontColor
-        },
+      primaryFontColor,
+      secondaryFontColor,
+      primaryFontSize,
+      secondaryFontSize,
+      border,
+      shadowColor,
+      shadowMargin,
+      shadowOffset,
+      shadowBlur
+    } = options;
+    await render(
+      {
+        layout: 'impression',
+        variation,
         size: {
-          primary: primaryFontSize,
-          secondary: secondaryFontSize
+          start: sizeStart,
+          end: sizeEnd
+        },
+        border,
+        background,
+        font: {
+          color: {
+            primary: primaryFontColor,
+            secondary: secondaryFontColor
+          },
+          size: {
+            primary: primaryFontSize,
+            secondary: secondaryFontSize
+          }
+        },
+        shadow: {
+          color: shadowColor,
+          margin: shadowMargin,
+          spread: shadowOffset,
+          blur: shadowBlur
         }
       },
-    }, input, output);
-  })
+      input,
+      output
+    );
+  });
 
-program.parse(process.argv)
+program.parse(process.argv);

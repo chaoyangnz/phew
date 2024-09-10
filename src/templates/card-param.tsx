@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react'
-import type { CardConfig, Context } from '../types'
+import type { ReactNode } from 'react';
+import type { CardConfig, Context } from '../types';
 
 export default ($: Context<CardConfig>): ReactNode => {
-  const textCss = {fontSize: $.font.size.primary, color: $.font.color.primary, fontWeight: 'bold'}
+  const textCss = { fontSize: $.font.size.primary, color: $.font.color.primary, fontWeight: 'bold' };
 
   return (
     <div
@@ -15,15 +15,12 @@ export default ($: Context<CardConfig>): ReactNode => {
         justifyContent: 'center',
         paddingLeft: 100,
         paddingRight: 100,
-        fontFamily: 'Arial',
+        fontFamily: 'Arial'
       }}
     >
-
       <p style={{ ...textCss }}>
-          {$.exposure.focal}mm 𝓕{$.exposure.aperture} {$.exposure.shutter}s ISO{$.exposure.iso}
+        {$.exposure.focal}mm 𝓕{$.exposure.aperture} {$.exposure.shutter}s ISO{$.exposure.iso}
       </p>
-
     </div>
   );
-}
-
+};

@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react'
-import type { CardConfig, Context } from '../types'
+import type { ReactNode } from 'react';
+import type { CardConfig, Context } from '../types';
 
 export default ($: Context<CardConfig>): ReactNode => {
-  const textCss = {fontSize: $.font.size.primary, color: $.font.color.primary, fontWeight: 'bold'}
+  const textCss = { fontSize: $.font.size.primary, color: $.font.color.primary, fontWeight: 'bold' };
 
   return (
     <div
@@ -14,20 +14,15 @@ export default ($: Context<CardConfig>): ReactNode => {
         alignItems: 'center',
         paddingLeft: 100,
         paddingRight: 100,
-        fontFamily: 'Arial',
+        fontFamily: 'Arial'
       }}
     >
       <p style={{ flex: '1 0 0', ...textCss }}>
-        <span>
-          {$.camera.model}
-        </span>
+        <span>{$.camera.model}</span>
       </p>
 
       <p style={{ flex: '1 0 0' }}>
-        <img
-          style={{ width: 180, height: 180, marginLeft: 'auto', marginRight: 'auto' }}
-          src={$.camera.logo}
-        />
+        <img style={{ width: 180, height: 180, marginLeft: 'auto', marginRight: 'auto' }} src={$.camera.logo} />
       </p>
 
       <p style={{ flex: '1 0 0', ...textCss }}>
@@ -37,5 +32,4 @@ export default ($: Context<CardConfig>): ReactNode => {
       </p>
     </div>
   );
-}
-
+};

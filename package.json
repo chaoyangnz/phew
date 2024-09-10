@@ -4,11 +4,13 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
+    "format": "biome format --write .",
     "prebuild": "bun embed.js && bun patch.js",
     "build": "bun build src/main.ts --compile --outfile dist/phew.exe",
     "postbuild": "cp node_modules/@img/sharp-win32-x64/lib/*.dll dist/ && cp dist/* ../"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@types/bun": "latest",
     "@types/lodash": "^4.17.7",
     "@types/react": "^18.3.5"
