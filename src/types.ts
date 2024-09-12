@@ -22,6 +22,8 @@ type CommonConfig = {
   output: {
     quality: number;
   };
+  border: number;
+  background: 'blur' | Color;
 };
 
 export type ColumnConfig = CommonConfig & {
@@ -35,17 +37,13 @@ export type CardConfig = CommonConfig & {
   layout: 'card';
   variation: 'full' | 'classic' | 'clean' | 'param' | 'logo';
   size: number;
-  border: number;
   overlay: boolean;
-  background: string;
 };
 
 export type ExpoConfig = CommonConfig & {
   layout: 'expo';
   variation: 'around' | 'left' | 'right' | 'bottom';
   size: { start: number; end: number };
-  border: number;
-  background: 'blur' | Color;
 };
 
 export type Spec = {
