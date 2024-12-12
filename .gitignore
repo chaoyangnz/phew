@@ -175,3 +175,6 @@ out
 .DS_Store
 
 dist
+
+# Bun build cache
+*.bun-build

@@ -5,9 +5,9 @@
   "version": "1.2.0",
   "scripts": {
     "format": "biome format --write .",
-    "prebuild": "bun embed.js && bun patch.js",
-    "build": "bun build src/main.ts --compile --outfile dist/phew.exe",
-    "postbuild": "cp node_modules/@img/sharp-win32-x64/lib/*.dll dist/ && cp dist/* ../../"
+    "prebuild": "bun scripts/prebuild.js",
+    "build": "bun scripts/build.js",
+    "postbuild": "bun scripts/postbuild.js"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
@@ -20,7 +20,6 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@img/sharp-win32-x64": "^0.33.5",
     "date-format": "^4.0.14",
     "exif-reader": "^2.0.1",
     "lodash": "^4.17.21",
@@ -28,5 +27,10 @@
     "satori": "^0.10.14",
     "sharp": "^0.33.5",
     "yargs": "^17.7.2"
+  },
+  "optionalDependencies": {
+    "@img/sharp-win32-x64": "^0.33.5",
+    "@img/sharp-darwin-x64": "^0.33.5",
+    "@img/sharp-darwin-arm64": "^0.33.5"
   }
 }
