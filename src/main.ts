@@ -5,11 +5,10 @@ import { hideBin } from 'yargs/helpers';
 // process.chdir(__dirname)
 
 const common = (_: Argv): Argv => {
-  _
-    .option('background', {
-      description: 'background color',
-      type: 'string'
-    })
+  _.option('background', {
+    description: 'background color',
+    type: 'string'
+  })
     .option('border', {
       description: 'border of photo',
       type: 'number'
@@ -73,7 +72,7 @@ const card = {
       });
   },
   handler: (args: any) => {
-    console.log(args)
+    console.log(args);
     const {
       input,
       output,

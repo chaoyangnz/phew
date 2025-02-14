@@ -18,5 +18,8 @@
     "rules": {
       "recommended": true
     }
+  },
+  "files": {
+    "ignore": ["src/assets.ts"]
   }
 }

@@ -1,7 +1,6 @@
-import { type OutputInfo, type Metadata, from, exifRead } from './img';
-import { logos } from './assets';
+import { type OutputInfo, type Metadata, from } from './img';
 import { template } from './templates';
-import { dateFormat, extractPathVariables, normalisePath } from './utils';
+import { extractPathVariables, normalisePath, parseExif } from './utils';
 import type { Config, Context, DeepPartial, Spec } from './types';
 
 export abstract class Renderer<T extends Config> {
@@ -181,41 +180,4 @@ const brand = (make: string): string => {
   ].find((it) => make.toLowerCase().includes(it));
 
   return brand || 'empty';
-};
-
-const parseExif = (buffer?: Buffer) => {
-  if (!buffer) throw Error('No Exif data found');
-  const exif = exifRead(buffer);
-  if (!exif.Photo || !exif.Image) throw Error('No Exif data found');
-  const focal = exif.Photo.FocalLength === undefined ? '' : exif.Photo.FocalLength.toString();
-  const aperture = exif.Photo.FNumber === undefined ? '' : exif.Photo.FNumber.toString();
-  const shutter =
-    exif.Photo.ExposureTime === undefined
-      ? ''
-      : exif.Photo.ExposureTime >= 1
-        ? exif.Photo.ExposureTime.toString()
-        : '1/' + Math.round(1 / exif.Photo.ExposureTime);
-  const iso = exif.Photo?.ISOSpeedRatings === undefined ? '' : exif.Photo?.ISOSpeedRatings.toString();
-
-  return {
-    exposure: {
-      focal,
-      aperture,
-      shutter,
-      iso,
-      formatted: `${focal}mm 𝓕${aperture} ${shutter}s ISO${iso}`
-    },
-    camera: {
-      make: exif.Image.Make || '',
-      model: exif.Image.Model || '',
-      // @ts-ignore
-      logo: logos[`${brand(exif.Image.Make)}.png`]
-    },
-    len: {
-      make: exif.Photo.LensMake || '',
-      model: exif.Photo.LensModel || ''
-    },
-    datetime: dateFormat('yyyy-MM-dd hh:mm', exif.Photo.DateTimeOriginal),
-    software: exif.Image.Software || ''
-  };
 };

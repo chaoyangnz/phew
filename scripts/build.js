@@ -1,8 +1,8 @@
-const os = require('os')
-const path = require('path')
+const os = require('os');
+const path = require('path');
 
-const platform = os.platform()
-const cwd = process.cwd()
+const platform = os.platform();
+const cwd = process.cwd();
 
 const build = Bun.spawnSync(
   [
@@ -11,13 +11,13 @@ const build = Bun.spawnSync(
     path.join(cwd, 'src/main.ts'),
     '--compile',
     '--outfile',
-    path.join(cwd, `dist/${platform === 'win32' ? 'phew.exe' : 'phew'}`),
+    path.join(cwd, `dist/${platform === 'win32' ? 'phew.exe' : 'phew'}`)
   ],
   {
-    stdio: ['inherit', 'inherit', 'inherit'],
+    stdio: ['inherit', 'inherit', 'inherit']
   }
-)
+);
 
 if (!build.success) {
-  process.exit(1)
+  process.exit(1);
 }
