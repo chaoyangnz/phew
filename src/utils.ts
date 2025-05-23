@@ -121,3 +121,23 @@ const parseTimezoneOffset = (offset?: string) => {
 
   return sign * (hours * 60 + minutes);
 };
+
+const brand = (make: string): string => {
+  const brand = [
+    'nikon',
+    'canon',
+    'sony',
+    'fujifilm',
+    'leica',
+    'panasonic',
+    'pentax',
+    'hasselblad',
+    'olympus',
+    'ricoh',
+    'apple',
+    'dji',
+    'xmage'
+  ].find((it) => make.toLowerCase().includes(it));
+
+  return brand || 'empty';
+};

@@ -1,19 +1,12 @@
 import type { ReactNode } from 'react';
-import type { Context } from './types';
-import cardFull from './templates/card-full';
-import cardClassic from './templates/card-classic';
-import cardClean from './templates/card-clean';
-import cardParam from './templates/card-param';
-import cardLogo from './templates/card-logo';
-import impressionAround from './templates/expo-around';
-import impressionLeft from './templates/expo-left';
-import impressionRight from './templates/expo-right';
+import { type Context } from './types';
 import satori from 'satori';
 import { fonts } from './assets.ts';
 
-export const templates: { [index: string]: (context: Context<any>) => ReactNode } = {};
+type TemplateFn = (context: Context<any>) => ReactNode;
+export const templates: { [index: string]: TemplateFn } = {};
 
-export const register = (name: string, template: (context: Context<any>) => ReactNode): void => {
+export const register = (name: string, template: TemplateFn): void => {
   // @ts-ignore
   templates[name] = template;
 };
@@ -43,12 +36,3 @@ export const template = async (name: string, context: Context<any>) => {
     console.timeEnd('render template');
   });
 };
-
-register('card-full', cardFull);
-register('card-classic', cardClassic);
-register('card-clean', cardClean);
-register('card-param', cardParam);
-register('card-logo', cardLogo);
-register('expo-around', impressionAround);
-register('expo-left', impressionLeft);
-register('expo-right', impressionRight);

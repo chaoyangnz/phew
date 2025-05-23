@@ -26,29 +26,49 @@ type CommonConfig = {
   background: 'blur' | Color;
 };
 
+export const layouts = {
+  column: ['landscape', 'left-margin', 'right-margin', 'portrait'] as const,
+  card: ['full', 'classic', 'clean', 'param', 'logo', 'frame'] as const,
+  expo: ['around', 'left', 'right', 'bottom'] as const
+};
+
+export const names = Object.entries(layouts)
+  .map(([layout, variations]) => variations.map((variant) => `${layout}-${variant}`))
+  .flat();
+
+type Variations = {
+  column: (typeof layouts)['column'][number];
+  card: (typeof layouts)['card'][number];
+  expo: (typeof layouts)['expo'][number];
+};
+
 export type ColumnConfig = CommonConfig & {
   layout: 'column';
-  variation: 'landscape' | 'left-margin' | 'right-margin' | 'portrait';
+  variation: Variations['column'];
   blur?: boolean;
   background?: 'blur' | Color;
 };
 
 export type CardConfig = CommonConfig & {
   layout: 'card';
-  variation: 'full' | 'classic' | 'clean' | 'param' | 'logo';
+  variation: Variations['card'];
   size: number;
   overlay: boolean;
 };
 
 export type ExpoConfig = CommonConfig & {
   layout: 'expo';
-  variation: 'around' | 'left' | 'right' | 'bottom';
+  variation: Variations['expo'];
   size: { start: number; end: number };
 };
 
 export type Spec = {
-  background: { width: number; height: number; background: string };
-  original: {
+  canvas: {
+    width: number;
+    height: number;
+    background: 'blur' | Color;
+  };
+  photo: {
     width: number;
     height: number;
     left: number;
@@ -63,11 +83,11 @@ export type Spec = {
 };
 
 export type Context<C extends Config> = {
-  background: {
+  canvas: {
     width: number;
     height: number;
   };
-  original: {
+  photo: {
     width: number;
     height: number;
   };

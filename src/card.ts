@@ -1,10 +1,24 @@
 import { Renderer } from './base';
 import { type CardConfig, type DeepPartial, type Spec } from './types';
 import { defaultsDeep } from 'lodash';
+import { register } from './templates.ts';
+import classic from './templates/card-classic';
+import clean from './templates/card-clean';
+import frame from './templates/card-frame';
+import full from './templates/card-full';
+import logo from './templates/card-logo';
+import param from './templates/card-param';
+
+register('card-classic', classic);
+register('card-clean', clean);
+register('card-frame', frame);
+register('card-full', full);
+register('card-logo', logo);
+register('card-param', param);
 
 export class CardRenderer extends Renderer<CardConfig> {
   defaultConfig(config: DeepPartial<CardConfig>): CardConfig {
-    return defaultsDeep(config, {
+    const conf = defaultsDeep(config, {
       layout: 'card',
       variation: 'full',
       size: 400,
@@ -31,28 +45,34 @@ export class CardRenderer extends Renderer<CardConfig> {
       },
       background: '#fff'
     });
+    if (conf.variation === 'frame') {
+      conf.size = conf.border;
+    }
+    return conf;
   }
 
   spec(): Spec {
     return {
-      background: {
-        width: this.info.width + this.config.border * 2,
+      canvas: {
+        width: this.photo.info.width + this.config.border * 2,
         height: this.config.overlay
-          ? this.info.height + this.config.border * 2
-          : this.info.height + +this.config.border + this.config.size,
+          ? this.photo.info.height + this.config.border * 2
+          : this.photo.info.height + this.config.border + this.config.size,
         background: this.config.background
       },
-      original: {
-        width: this.info.width,
-        height: this.info.height,
+      photo: {
+        width: this.photo.info.width,
+        height: this.photo.info.height,
         left: this.config.border,
         top: this.config.border
       },
       watermark: {
-        width: this.info.width + this.config.border * 2,
+        width: this.photo.info.width + this.config.border * 2,
         height: this.config.size,
         left: 0,
-        top: this.config.overlay ? this.info.height - this.config.size : this.info.height + this.config.border
+        top: this.config.overlay
+          ? this.photo.info.height - this.config.size
+          : this.photo.info.height + this.config.border
       }
     };
   }

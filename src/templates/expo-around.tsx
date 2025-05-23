@@ -48,8 +48,8 @@ export default ($: Context<ExpoConfig>): ReactNode => {
       {/*<div*/}
       {/*  style={{*/}
       {/*    ...styles.debug,*/}
-      {/*    width: $.original.width,*/}
-      {/*    height: $.original.height,*/}
+      {/*    width: $.photo.width,*/}
+      {/*    height: $.photo.height,*/}
       {/*    boxShadow:*/}
       {/*      '-16px 0 40px 0 rgba(0, 0, 0, 0.3), 16px 0 40px 0 rgba(0, 0, 0, 0.3), 0 -16px 40px 0 rgba(0, 0, 0, 0.3), 0 16px 40px 0 rgba(0, 0, 0, 0.3)'*/}
       {/*  }}*/}

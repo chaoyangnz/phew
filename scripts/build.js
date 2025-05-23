@@ -10,6 +10,8 @@ const build = Bun.spawnSync(
     'build',
     path.join(cwd, 'src/main.ts'),
     '--compile',
+    '--minify',
+    // path.join(cwd, 'src/templates/*.tsx'),
     '--outfile',
     path.join(cwd, `dist/${platform === 'win32' ? 'phew.exe' : 'phew'}`)
   ],
@@ -21,3 +23,7 @@ const build = Bun.spawnSync(
 if (!build.success) {
   process.exit(1);
 }
+
+import { embeddedFiles } from 'bun';
+
+console.log(embeddedFiles); // `icon-${hash}.png`

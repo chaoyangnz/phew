@@ -53,41 +53,43 @@ You can edit `phew.bat` as you need to customise the parameters: layout, other t
 ## Examples
 
 
-|                    layout / gallery                     |
-|:-------------------------------------------------------:|
-|                       card / full                       |
-|        ![](examples/landscape-phew-card-full.jpg)         |
-|                     card / classic                      |
-|       ![](examples/landscape-phew-card-classic.jpg)       |
-|                       card / logo                       | 
-|        ![](examples/landscape-phew-card-logo.jpg)         |
-|                      card / clean                       |
-|        ![](examples/landscape-phew-card-clean.jpg)        |
-|                   card / clean / blur                   |
-|     ![](examples/landscape-phew-card-clean-blur.jpg)      |
-|                      card / param                       |
-|        ![](examples/landscape-phew-card-param.jpg)        |
-|                       card / logo                       |
+|                  layout / gallery                  |
+|:--------------------------------------------------:|
+|                    card / full                     |
+|     ![](examples/landscape-phew-card-full.jpg)     |
+|                   card / classic                   |
+|   ![](examples/landscape-phew-card-classic.jpg)    |
+|                    card / logo                     | 
+|     ![](examples/landscape-phew-card-logo.jpg)     |
+|                    card / clean                    |
+|    ![](examples/landscape-phew-card-clean.jpg)     |
+|                card / clean / blur                 |
+|  ![](examples/landscape-phew-card-clean-blur.jpg)  |
+|                    card / param                    |
+|    ![](examples/landscape-phew-card-param.jpg)     |
+|                    card / logo                     |
 |      ![](examples/square-phew-card-logo.jpg)       |
-|                   card / logo / blur                    |
+|                 card / logo / blur                 |
 |    ![](examples/square-phew-card-logo-blur.jpg)    |
-|                  card / logo / overlay                  |
-|    ![](examples/landscape-phew-card-logo-overlay.jpg)     |
-|                      card / param                       |
-|        ![](examples/landscape-phew-card-param.jpg)        |
-|                       card / logo                       |
+|               card / logo / overlay                |
+| ![](examples/landscape-phew-card-logo-overlay.jpg) |
+|                    card / param                    |
+|    ![](examples/landscape-phew-card-param.jpg)     |
+|                    card / logo                     |
 |      ![](examples/square-phew-card-logo.jpg)       |
-|                   card / logo / blur                    |
+|                 card / logo / blur                 |
 |    ![](examples/square-phew-card-logo-blur.jpg)    |
-|                  card / logo / overlay                  |
-|    ![](examples/landscape-phew-card-logo-overlay.jpg)     |
-|                                                         |
-|                                                         |
-|                   expo / around                   |
-|   ![](examples/portrait-phew-expo-around.jpg)    |
-|               expo / around / blur                |
-| ![](examples/portrait-phew-expo-around-blur.jpg) |
-|                    expo / left                    |
-|    ![](examples/portrait-phew-expo-left.jpg)     |
-|                   expo / right                    |
-|    ![](examples/portrait-phew-expo-right.jpg)    |
+|               card / logo / overlay                |
+| ![](examples/landscape-phew-card-logo-overlay.jpg) |
+|                    card / frame                    |
+|    ![](examples/landscape-phew-card-frame.jpg)     |
+|                                                    |
+|                                                    |
+|                   expo / around                    |
+|    ![](examples/portrait-phew-expo-around.jpg)     |
+|                expo / around / blur                |
+|  ![](examples/portrait-phew-expo-around-blur.jpg)  |
+|                    expo / left                     |
+|     ![](examples/portrait-phew-expo-left.jpg)      |
+|                    expo / right                    |
+|     ![](examples/portrait-phew-expo-right.jpg)     |

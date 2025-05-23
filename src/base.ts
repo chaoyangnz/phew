@@ -4,39 +4,44 @@ import { extractPathVariables, normalisePath, parseExif } from './utils';
 import type { Config, Context, DeepPartial, Spec } from './types';
 
 export abstract class Renderer<T extends Config> {
-  metadata!: Metadata;
-  original!: Buffer;
-  info!: OutputInfo;
+  photo!: {
+    metadata: Metadata;
+    data: Buffer;
+    info: OutputInfo;
+  };
   config!: T;
+  input: string;
+  output: string;
 
-  constructor(
-    public file: string,
-    public dest: string | undefined,
-    config: DeepPartial<T>
-  ) {
+  constructor(input: string, output: string | undefined, config: DeepPartial<T>) {
     this.config = this.defaultConfig(config);
-    console.log(file, dest, config);
+    this.input = input;
+    this.output = normalisePath(extractPathVariables(this.input, this.config), output);
+    console.log(this.input, this.output, this.config);
   }
 
   async render(): Promise<string> {
-    const image = from(this.file);
-    this.metadata = await image.metadata();
+    const image = from(this.input);
+    const metadata = await image.metadata();
     const { data, info } = await image.toBuffer({ resolveWithObject: true });
-    this.original = data;
-    this.info = info;
+    this.photo = {
+      metadata,
+      info,
+      data
+    };
 
-    const exif = parseExif(this.metadata.exif);
+    const exif = parseExif(this.photo.metadata.exif);
 
     const spec = this.spec();
 
     const context: Context<Config> = {
-      background: {
-        width: spec.background.width,
-        height: spec.background.height
+      canvas: {
+        width: spec.canvas.width,
+        height: spec.canvas.height
       },
-      original: {
-        width: spec.original.width,
-        height: spec.original.height
+      photo: {
+        width: spec.photo.width,
+        height: spec.photo.height
       },
       width: spec.watermark.width,
       height: spec.watermark.height,
@@ -57,18 +62,18 @@ export abstract class Renderer<T extends Config> {
     const watermark = Buffer.from(svg);
     // fs.writeFileSync('debug.svg', watermark)
 
-    console.time('render background');
-    const background =
-      spec.background.background != 'blur'
-        ? await from(this.original)
-            .resize(spec.background.width, spec.background.height)
+    console.time('render canvas');
+    const canvas =
+      spec.canvas.background != 'blur'
+        ? await from(this.photo.data)
+            .resize(spec.canvas.width, spec.canvas.height)
             .composite([
               {
                 input: {
                   create: {
-                    width: spec.background.width,
-                    height: spec.background.height,
-                    background: spec.background.background,
+                    width: spec.canvas.width,
+                    height: spec.canvas.height,
+                    background: spec.canvas.background,
                     channels: 4
                   }
                 },
@@ -78,32 +83,32 @@ export abstract class Renderer<T extends Config> {
               }
             ])
             .toBuffer()
-        : await from(this.original)
-            .resize(spec.background.width, spec.background.height)
+        : await from(this.photo.data)
+            .resize(spec.canvas.width, spec.canvas.height)
             // .extract({ width: originalSpec.width - 200, height: originalSpec.height - 200, left: 200, top: 200 })
             .blur(200)
             .toBuffer();
 
-    console.timeEnd('render background');
+    console.timeEnd('render canvas');
 
     const shadow =
       this.config.shadow.margin !== 0
         ? await from(
             Buffer.from(`
       <svg
-        width="${spec.original.width + (this.config.shadow.spread + this.config.shadow.margin) * 2}"
-        height="${spec.original.height + (this.config.shadow.spread + this.config.shadow.margin) * 2}"
+        width="${spec.photo.width + (this.config.shadow.spread + this.config.shadow.margin) * 2}"
+        height="${spec.photo.height + (this.config.shadow.spread + this.config.shadow.margin) * 2}"
       >
         <rect
-          width="${spec.original.width + this.config.shadow.spread * 2}"
-          height="${spec.original.height + this.config.shadow.spread * 2}"
+          width="${spec.photo.width + this.config.shadow.spread * 2}"
+          height="${spec.photo.height + this.config.shadow.spread * 2}"
           x="${this.config.shadow.margin}"
           y="${this.config.shadow.margin}"
           fill="${this.config.shadow.color}"
         />
         <!--rect
-          width="${spec.original.width}" 
-          height="${spec.original.height}" 
+          width="${spec.photo.width}" 
+          height="${spec.photo.height}" 
           x="${this.config.shadow.margin}" 
           y="${this.config.shadow.margin}" 
           fill="green" 
@@ -116,24 +121,23 @@ export abstract class Renderer<T extends Config> {
             .toBuffer()
         : undefined;
 
-    const dst = normalisePath(extractPathVariables(this.file, this.config), this.dest);
     console.time('render composition');
-    const final = await from(background)
+    const final = await from(canvas)
       .composite([
         ...(shadow
           ? [
               {
                 input: shadow,
-                left: spec.original.left - this.config.shadow.margin,
-                top: spec.original.top - this.config.shadow.margin
+                left: spec.photo.left - this.config.shadow.margin,
+                top: spec.photo.top - this.config.shadow.margin
                 // blend: 'multiply'
               }
             ]
           : []),
         {
-          input: this.original,
-          left: spec.original.left,
-          top: spec.original.top,
+          input: this.photo.data,
+          left: spec.photo.left,
+          top: spec.photo.top,
           blend: 'over'
         },
         {
@@ -151,33 +155,13 @@ export abstract class Renderer<T extends Config> {
     console.timeEnd('render composition');
 
     console.time('write file');
-    await from(final).jpeg({ quality: this.config.output.quality }).toFile(dst);
+    await from(final).jpeg({ quality: this.config.output.quality }).toFile(this.output);
     console.timeEnd('write file');
 
-    return dst;
+    return this.output;
   }
 
   abstract spec(): Spec;
 
   abstract defaultConfig(conf: DeepPartial<T>): T;
 }
-
-const brand = (make: string): string => {
-  const brand = [
-    'nikon',
-    'canon',
-    'sony',
-    'fujifilm',
-    'leica',
-    'panasonic',
-    'pentax',
-    'hasselblad',
-    'olympus',
-    'ricoh',
-    'apple',
-    'dji',
-    'xmage'
-  ].find((it) => make.toLowerCase().includes(it));
-
-  return brand || 'empty';
-};

@@ -112,6 +112,15 @@ describe('phew test', () => {
           dest
         );
 
+        await render(
+          {
+            layout: 'card',
+            variation: 'frame'
+          },
+          file,
+          dest
+        );
+
         expect(true).toBeTruthy();
       },
       7200000

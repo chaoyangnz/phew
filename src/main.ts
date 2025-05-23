@@ -1,6 +1,7 @@
 import { render } from './index';
 import yargs, { type Argv } from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import { layouts } from './types.ts';
 
 // process.chdir(__dirname)
 
@@ -58,7 +59,7 @@ const card = {
   builder: (_: Argv) => {
     return common(_)
       .option('variation', {
-        describe: 'variation: full, classic, clean, param, logo',
+        describe: `variation: ${layouts['card'].join(', ')}`,
         type: 'string',
         default: 'full'
       })
@@ -131,7 +132,7 @@ const expo = {
   builder: (_: Argv) => {
     return common(_)
       .option('variation', {
-        describe: 'variation: around, left, right, bottom',
+        describe: `variation: ${layouts['expo'].join(', ')}`,
         type: 'string',
         default: 'around'
       })

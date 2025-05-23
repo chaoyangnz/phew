@@ -1,6 +1,14 @@
 import { Renderer } from './base';
 import { type DeepPartial, type ExpoConfig, type Spec } from './types';
 import { defaultsDeep } from 'lodash';
+import { register } from './templates.ts';
+import around from './templates/expo-around.tsx';
+import left from './templates/expo-left.tsx';
+import right from './templates/expo-right.tsx';
+
+register('expo-around', around);
+register('expo-left', left);
+register('expo-right', right);
 
 export class ExpoRenderer extends Renderer<ExpoConfig> {
   defaultConfig(config: DeepPartial<ExpoConfig>): ExpoConfig {
@@ -34,20 +42,20 @@ export class ExpoRenderer extends Renderer<ExpoConfig> {
 
   spec(): Spec {
     return {
-      background: {
-        width: this.info.width + this.config.size.start + this.config.size.end,
-        height: this.info.height + this.config.border * 2,
+      canvas: {
+        width: this.photo.info.width + this.config.size.start + this.config.size.end,
+        height: this.photo.info.height + this.config.border * 2,
         background: this.config.background
       },
-      original: {
-        width: this.info.width,
-        height: this.info.height,
+      photo: {
+        width: this.photo.info.width,
+        height: this.photo.info.height,
         left: this.config.size.start,
         top: this.config.border
       },
       watermark: {
-        width: this.info.width + this.config.size.start + this.config.size.end,
-        height: this.info.height + this.config.border * 2,
+        width: this.photo.info.width + this.config.size.start + this.config.size.end,
+        height: this.photo.info.height + this.config.border * 2,
         left: 0,
         top: 0
       }
