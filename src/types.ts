@@ -74,7 +74,7 @@ export type Spec = {
     left: number;
     top: number;
   };
-  watermark: {
+  manifest: {
     width: number;
     height: number;
     left: number;
@@ -82,7 +82,7 @@ export type Spec = {
   };
 };
 
-export type Context<C extends Config> = {
+export type TemplateContext<C extends Config> = {
   canvas: {
     width: number;
     height: number;

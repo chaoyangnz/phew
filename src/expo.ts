@@ -53,7 +53,7 @@ export class ExpoRenderer extends Renderer<ExpoConfig> {
         left: this.config.size.start,
         top: this.config.border
       },
-      watermark: {
+      manifest: {
         width: this.photo.info.width + this.config.size.start + this.config.size.end,
         height: this.photo.info.height + this.config.border * 2,
         left: 0,

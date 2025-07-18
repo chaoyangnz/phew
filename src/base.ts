@@ -1,7 +1,7 @@
 import { type OutputInfo, type Metadata, from } from './img';
-import { template } from './templates';
+import { render } from './templates';
 import { extractPathVariables, normalisePath, parseExif } from './utils';
-import type { Config, Context, DeepPartial, Spec } from './types';
+import type { Config, TemplateContext, DeepPartial, Spec } from './types';
 
 export abstract class Renderer<T extends Config> {
   photo!: {
@@ -34,7 +34,7 @@ export abstract class Renderer<T extends Config> {
 
     const spec = this.spec();
 
-    const context: Context<Config> = {
+    const context: TemplateContext<Config> = {
       canvas: {
         width: spec.canvas.width,
         height: spec.canvas.height
@@ -43,8 +43,8 @@ export abstract class Renderer<T extends Config> {
         width: spec.photo.width,
         height: spec.photo.height
       },
-      width: spec.watermark.width,
-      height: spec.watermark.height,
+      width: spec.manifest.width,
+      height: spec.manifest.height,
       font: {
         color: {
           primary: this.config.font.color.primary,
@@ -58,9 +58,50 @@ export abstract class Renderer<T extends Config> {
       ...exif,
       config: this.config
     };
-    const svg = await template(`${this.config.layout}-${this.config.variation}`, context);
-    const watermark = Buffer.from(svg);
-    // fs.writeFileSync('debug.svg', watermark)
+    const manifest = await render(`${this.config.layout}-${this.config.variation}`, context);
+    // fs.writeFileSync('debug.svg', manifest)
+
+    const watermarks = {
+      generic: {
+        path: '/Users/chao.yang/Pictures/watermark/watermark-generic-light.png',
+        keywords: []
+      },
+      astro: {
+        path: '/Users/chao.yang/Pictures/watermark/watermark-astro-light.png',
+        keywords: ['star', 'moon', 'night', 'milky way', 'galaxy', 'constellation', 'constellations', 'constellation']
+      },
+      bird: {
+        path: '/Users/chao.yang/Pictures/watermark/watermark-bird-light.png',
+        keywords: ['bird']
+      },
+      floral: {
+        path: '/Users/chao.yang/Pictures/watermark/watermark-floral-light.png',
+        keywords: ['flower']
+      },
+      seascape: {
+        path: '/Users/chao.yang/Pictures/watermark/watermark-seascape-light.png',
+        keywords: ['beach', 'sea', 'ocean', 'bay', 'cove']
+      },
+      landscape: {
+        path: '/Users/chao.yang/Pictures/watermark/watermark-summit-light.png',
+        keywords: ['summit', 'mountain', 'peak', 'hill', 'peak', 'waterfall']
+      },
+      cityscape: {
+        path: '/Users/chao.yang/Pictures/watermark/watermark-cityscape-light.png',
+        keywords: ['city', 'building', 'skyscraper', 'tower', 'skyline', 'sky', 'tower', 'skyscraper', 'skyline']
+      }
+    }
+
+    const f = from(watermarks['generic'].path)
+    const { width, height } = await f.metadata()
+    const h = Math.round(spec.photo.height * 0.04) // photo height 5%
+    const w = Math.round(h * width! / height!) // keep aspect ratio
+    const d = await f.resize(w, h).ensureAlpha(0.5).toBuffer()
+    const watermark = {
+      data: d,
+      width: w,
+      height: h
+    }
 
     console.time('render canvas');
     const canvas =
@@ -141,9 +182,14 @@ export abstract class Renderer<T extends Config> {
           blend: 'over'
         },
         {
-          input: watermark,
-          left: spec.watermark.left,
-          top: spec.watermark.top
+          input: watermark.data,
+          left: Math.round(spec.photo.left + spec.photo.width / 2 - watermark.width / 2),
+          top: spec.photo.top + spec.photo.height - watermark.height - 25,
+        },
+        {
+          input: manifest,
+          left: spec.manifest.left,
+          top: spec.manifest.top
         }
       ])
       .withExifMerge({
