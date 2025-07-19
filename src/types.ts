@@ -2,7 +2,22 @@ export type Config = ColumnConfig | CardConfig | ExpoConfig;
 
 export type Color = string;
 
-type CommonConfig = {
+export type GlobalConfig = {
+  watermarks?: {
+    generic: {
+      path: string;
+      keywords: [];
+    };
+  } & {
+    [key: string]: {
+      path: string;
+      keywords: string[];
+    };
+  };
+  captionApi?: string;
+};
+
+export type CommonConfig = {
   font: {
     color: {
       primary: string;
@@ -24,7 +39,7 @@ type CommonConfig = {
   };
   border: number;
   background: 'blur' | Color;
-};
+} & GlobalConfig;
 
 export const layouts = {
   column: ['landscape', 'left-margin', 'right-margin', 'portrait'] as const,
@@ -74,7 +89,7 @@ export type Spec = {
     left: number;
     top: number;
   };
-  watermark: {
+  manifest: {
     width: number;
     height: number;
     left: number;
@@ -82,7 +97,7 @@ export type Spec = {
   };
 };
 
-export type Context<C extends Config> = {
+export type TemplateContext<C extends Config> = {
   canvas: {
     width: number;
     height: number;

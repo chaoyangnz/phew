@@ -64,11 +64,11 @@ const card = {
         default: 'full'
       })
       .option('size', {
-        describe: 'size of watermark',
+        describe: 'size of manifest',
         type: 'number'
       })
       .option('overlay', {
-        describe: 'overlay watermark',
+        describe: 'overlay manifest',
         type: 'boolean'
       });
   },
@@ -137,11 +137,11 @@ const expo = {
         default: 'around'
       })
       .option('size-start', {
-        describe: 'start size of watermark',
+        describe: 'start size of manifest',
         type: 'number'
       })
       .option('size-end', {
-        describe: 'end size of watermark',
+        describe: 'end size of manifest',
         type: 'number'
       });
   },

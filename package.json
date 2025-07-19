@@ -7,7 +7,8 @@
     "format": "biome format --write .",
     "prebuild": "bun scripts/prebuild.js",
     "build": "bun scripts/build.js",
-    "postbuild": "bun scripts/postbuild.js"
+    "postbuild": "bun scripts/postbuild.js",
+    "install": "mkdir -p ~/phew && cp -r dist/* ~/phew/"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
@@ -29,8 +30,8 @@
     "yargs": "^17.7.2"
   },
   "optionalDependencies": {
-    "@img/sharp-win32-x64": "^0.33.5",
+    "@img/sharp-darwin-arm64": "^0.33.5",
     "@img/sharp-darwin-x64": "^0.33.5",
-    "@img/sharp-darwin-arm64": "^0.33.5"
+    "@img/sharp-win32-x64": "^0.33.5"
   }
 }

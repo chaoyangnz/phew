@@ -66,7 +66,7 @@ export class CardRenderer extends Renderer<CardConfig> {
         left: this.config.border,
         top: this.config.border
       },
-      watermark: {
+      manifest: {
         width: this.photo.info.width + this.config.border * 2,
         height: this.config.size,
         left: 0,

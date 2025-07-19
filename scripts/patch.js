@@ -1,4 +1,8 @@
 const fs = require('fs');
+const os = require('os');
+
+const platform = os.platform();
+const arch = os.arch();
 
 const file = 'node_modules/sharp/lib/sharp.js';
 const additionalPath = '`./sharp-${runtimePlatform}.node`';
@@ -10,7 +14,7 @@ let js = fs.readFileSync(file, 'utf8');
 // refer to https://bun.sh/docs/bundler/executables#embed-n-api-addons
 
 if (!js.includes(additionalPath)) {
-  js = js.replace('let sharp;', `let sharp = require('@img/sharp-win32-x64/sharp.node');`);
+  js = js.replace('let sharp;', `let sharp = require('@img/sharp-${platform}-${arch}/sharp.node');`);
 
   fs.writeFileSync(file, js);
 }

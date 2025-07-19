@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
-import type { CardConfig, Context } from '../types';
+import type { CardConfig, TemplateContext } from '../types';
 
-export default ($: Context<CardConfig>): ReactNode => {
+export default ($: TemplateContext<CardConfig>): ReactNode => {
   return (
     <div
       style={{
