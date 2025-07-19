@@ -13,9 +13,13 @@ if (platform === 'win32') {
 }
 
 if (platform === 'darwin') {
-  fs.cpSync(path.join(cwd, `node_modules/@img/sharp-libvips-${platform}-${arch}/lib/libvips-cpp.42.dylib`), path.join(cwd, `dist/libvips-cpp.42.dylib`), {
-    recursive: true
-  });
+  fs.cpSync(
+    path.join(cwd, `node_modules/@img/sharp-libvips-${platform}-${arch}/lib/libvips-cpp.42.dylib`),
+    path.join(cwd, `dist/libvips-cpp.42.dylib`),
+    {
+      recursive: true
+    }
+  );
 }
 
 const f = platform === 'win32' ? 'phew.bat' : 'phew.sh';
