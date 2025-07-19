@@ -2,6 +2,9 @@ import { type OutputInfo, type Metadata, from } from './img';
 import { render } from './templates';
 import { extractPathVariables, normalisePath, parseExif } from './utils';
 import type { Config, TemplateContext, DeepPartial, Spec } from './types';
+import { $ } from 'bun'
+import * as os from "node:os";
+import { last } from "lodash";
 
 export abstract class Renderer<T extends Config> {
   photo!: {
@@ -68,15 +71,15 @@ export abstract class Renderer<T extends Config> {
       },
       astro: {
         path: '/Users/chao.yang/Pictures/watermark/watermark-astro-light.png',
-        keywords: ['star', 'moon', 'night', 'milky way', 'galaxy', 'constellation', 'constellations', 'constellation']
+        keywords: ['star', 'moon', 'night', 'milky way', 'galaxy', 'constellation', 'constellations', 'constellation', 'deep sky']
       },
       bird: {
         path: '/Users/chao.yang/Pictures/watermark/watermark-bird-light.png',
-        keywords: ['bird']
+        keywords: ['bird', 'tui', 'falcon', 'parrot', 'penguin']
       },
       floral: {
         path: '/Users/chao.yang/Pictures/watermark/watermark-floral-light.png',
-        keywords: ['flower']
+        keywords: ['flower', 'rose']
       },
       seascape: {
         path: '/Users/chao.yang/Pictures/watermark/watermark-seascape-light.png',
@@ -84,15 +87,41 @@ export abstract class Renderer<T extends Config> {
       },
       landscape: {
         path: '/Users/chao.yang/Pictures/watermark/watermark-summit-light.png',
-        keywords: ['summit', 'mountain', 'peak', 'hill', 'peak', 'waterfall']
+        keywords: ['summit', 'mountain', 'peak', 'hill', 'peak', 'waterfall', 'valley', 'river', 'lake', 'volcano', 'sunrise', 'sunset']
       },
       cityscape: {
         path: '/Users/chao.yang/Pictures/watermark/watermark-cityscape-light.png',
         keywords: ['city', 'building', 'skyscraper', 'tower', 'skyline', 'sky', 'tower', 'skyscraper', 'skyline']
+      },
+      aircraft: {
+        path: '/Users/chao.yang/Pictures/watermark/watermark-aircraft-light.png',
+        keywords: ['airplane', 'plane', 'aircraft', 'airplane', 'plane']
       }
     }
 
-    const f = from(watermarks['generic'].path)
+    // determine photo category
+    const n = last(this.input.split('/'))
+    const thumbnail = `${os.tmpdir()}/${n}`;
+    const thumbnailSize = 200;
+    await image.resize(thumbnailSize, Math.round(thumbnailSize * (this.photo.info.height / this.photo.info.width))).toFile(thumbnail)
+    const { caption } = await $`curl -X POST -F "image=@${thumbnail}"  http://localhost:8004/caption`.json().catch(error => {
+      console.log(error)
+      return { data: { caption: '' } }
+    })
+    console.log(thumbnail, caption)
+    let category: keyof typeof watermarks = 'generic'
+    if (caption) {
+      for (const [key, value] of Object.entries(watermarks)) {
+        if (value.keywords.some(keyword => caption.toLowerCase().includes(keyword))) {
+          // @ts-ignore
+          category = key
+          break
+        }
+      }
+    }
+
+    // determine photo watermark layout
+    const f = from(watermarks[category].path)
     const { width, height } = await f.metadata()
     const h = Math.round(spec.photo.height * 0.04) // photo height 5%
     const w = Math.round(h * width! / height!) // keep aspect ratio
