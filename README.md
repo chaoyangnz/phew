@@ -21,11 +21,16 @@ Windows:
 MacOS
 - `phew`
 - `phew.sh`
+- `libvips-cpp.42.dylib`
 
 Then you can run `phew.exe` or `phew` as command.
 
 > Windows error: 
 > If you get errors: `Fail to load Library`, then you can put two `.dll` files to `C:\Windows`.
+
+> MacOS error: 
+> if you get errors: `dlopen(/var/folders/...000.node, 0x0001): Library not loaded: @rpath/libvips-cpp.42.dylib`, 
+> set env var DYLD_LIBRARY_PATH, which is already set in phew.sh if you use it
 
 ## Usage
 
@@ -64,7 +69,7 @@ You can edit `phew.bat` as you need to customise the parameters: layout, other t
 
 - Create a `.phew.json` in your home directory
 
-put the config to describe where your watermarks are, you can use different watermark as per the category, a generic is used else.
+put the config to describe where your watermark is.
 
 example config:
 ```
