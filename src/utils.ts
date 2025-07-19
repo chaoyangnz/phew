@@ -1,11 +1,12 @@
 import path from 'path';
-import type { Config } from './types';
+import type { CommonConfig, Config } from './types';
 import { compact } from 'lodash';
 // @ts-ignore
 import format from 'date-format';
 import * as fs from 'fs';
 import { exifRead } from './img.ts';
 import { logos } from './assets.ts';
+import { $ } from 'bun';
 
 export type PathVariables = {
   name: string;
@@ -140,4 +141,28 @@ const brand = (make: string): string => {
   ].find((it) => make.toLowerCase().includes(it));
 
   return brand || 'empty';
+};
+
+export const resolveWatermark = async (
+  watermarks: NonNullable<CommonConfig['watermarks']>,
+  captionApi: string,
+  thumbnail: string
+) => {
+  // determine photo category
+  const { caption } = await $`curl -X POST -F "image=@${thumbnail}" ${captionApi}`.json().catch((error) => {
+    console.log(error);
+    return { data: { caption: '' } };
+  });
+  console.log(thumbnail, caption);
+  let category = 'generic';
+  if (caption) {
+    for (const [key, value] of Object.entries(watermarks)) {
+      if (value.keywords.some((keyword) => caption.toLowerCase().includes(keyword))) {
+        category = key;
+        break;
+      }
+    }
+  }
+
+  return watermarks[category].path;
 };

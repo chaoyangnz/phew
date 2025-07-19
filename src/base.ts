@@ -1,23 +1,35 @@
-import { type OutputInfo, type Metadata, from } from './img';
+import { type OutputInfo, type Metadata, from, thumbnail, resize } from './img';
 import { render } from './templates';
-import { extractPathVariables, normalisePath, parseExif } from './utils';
+import { extractPathVariables, normalisePath, parseExif, resolveWatermark } from './utils';
 import type { Config, TemplateContext, DeepPartial, Spec } from './types';
-import { $ } from 'bun'
-import * as os from "node:os";
-import { last } from "lodash";
+import * as fs from 'node:fs';
+import os from 'node:os';
 
 export abstract class Renderer<T extends Config> {
   photo!: {
     metadata: Metadata;
     data: Buffer;
     info: OutputInfo;
+    thumbnail: string;
   };
   config!: T;
   input: string;
   output: string;
 
+  mergeGlobalConfig() {
+    const path = `${os.homedir()}/.phew.json`;
+    if (fs.existsSync(path)) {
+      const phewrc = fs.readFileSync(path, 'utf-8');
+      this.config = {
+        ...this.config,
+        ...JSON.parse(phewrc)
+      };
+    }
+  }
+
   constructor(input: string, output: string | undefined, config: DeepPartial<T>) {
     this.config = this.defaultConfig(config);
+    this.mergeGlobalConfig();
     this.input = input;
     this.output = normalisePath(extractPathVariables(this.input, this.config), output);
     console.log(this.input, this.output, this.config);
@@ -30,7 +42,8 @@ export abstract class Renderer<T extends Config> {
     this.photo = {
       metadata,
       info,
-      data
+      data,
+      thumbnail: await thumbnail(this.input, image)
     };
 
     const exif = parseExif(this.photo.metadata.exif);
@@ -64,73 +77,12 @@ export abstract class Renderer<T extends Config> {
     const manifest = await render(`${this.config.layout}-${this.config.variation}`, context);
     // fs.writeFileSync('debug.svg', manifest)
 
-    const watermarks = {
-      generic: {
-        path: '/Users/chao.yang/Pictures/watermark/watermark-generic-light.png',
-        keywords: []
-      },
-      astro: {
-        path: '/Users/chao.yang/Pictures/watermark/watermark-astro-light.png',
-        keywords: ['star', 'moon', 'night', 'milky way', 'galaxy', 'constellation', 'constellations', 'constellation', 'deep sky']
-      },
-      bird: {
-        path: '/Users/chao.yang/Pictures/watermark/watermark-bird-light.png',
-        keywords: ['bird', 'tui', 'falcon', 'parrot', 'penguin']
-      },
-      floral: {
-        path: '/Users/chao.yang/Pictures/watermark/watermark-floral-light.png',
-        keywords: ['flower', 'rose']
-      },
-      seascape: {
-        path: '/Users/chao.yang/Pictures/watermark/watermark-seascape-light.png',
-        keywords: ['beach', 'sea', 'ocean', 'bay', 'cove']
-      },
-      landscape: {
-        path: '/Users/chao.yang/Pictures/watermark/watermark-summit-light.png',
-        keywords: ['summit', 'mountain', 'peak', 'hill', 'peak', 'waterfall', 'valley', 'river', 'lake', 'volcano', 'sunrise', 'sunset']
-      },
-      cityscape: {
-        path: '/Users/chao.yang/Pictures/watermark/watermark-cityscape-light.png',
-        keywords: ['city', 'building', 'skyscraper', 'tower', 'skyline', 'sky', 'tower', 'skyscraper', 'skyline']
-      },
-      aircraft: {
-        path: '/Users/chao.yang/Pictures/watermark/watermark-aircraft-light.png',
-        keywords: ['airplane', 'plane', 'aircraft', 'airplane', 'plane']
-      }
-    }
-
-    // determine photo category
-    const n = last(this.input.split('/'))
-    const thumbnail = `${os.tmpdir()}/${n}`;
-    const thumbnailSize = 200;
-    await image.resize(thumbnailSize, Math.round(thumbnailSize * (this.photo.info.height / this.photo.info.width))).toFile(thumbnail)
-    const { caption } = await $`curl -X POST -F "image=@${thumbnail}"  http://localhost:8004/caption`.json().catch(error => {
-      console.log(error)
-      return { data: { caption: '' } }
-    })
-    console.log(thumbnail, caption)
-    let category: keyof typeof watermarks = 'generic'
-    if (caption) {
-      for (const [key, value] of Object.entries(watermarks)) {
-        if (value.keywords.some(keyword => caption.toLowerCase().includes(keyword))) {
-          // @ts-ignore
-          category = key
-          break
-        }
-      }
-    }
-
     // determine photo watermark layout
-    const f = from(watermarks[category].path)
-    const { width, height } = await f.metadata()
-    const h = Math.round(spec.photo.height * 0.04) // photo height 5%
-    const w = Math.round(h * width! / height!) // keep aspect ratio
-    const d = await f.resize(w, h).ensureAlpha(0.5).toBuffer()
-    const watermark = {
-      data: d,
-      width: w,
-      height: h
-    }
+    const watermarkPath =
+      this.config.watermarks && this.config.captionApi
+        ? await resolveWatermark(this.config.watermarks, this.config.captionApi, this.photo.thumbnail)
+        : this.config.watermarks?.generic?.path;
+    const watermark = watermarkPath ? await resize(from(watermarkPath), spec.photo.height * 0.04) : undefined;
 
     console.time('render canvas');
     const canvas =
@@ -210,11 +162,15 @@ export abstract class Renderer<T extends Config> {
           top: spec.photo.top,
           blend: 'over'
         },
-        {
-          input: watermark.data,
-          left: Math.round(spec.photo.left + spec.photo.width / 2 - watermark.width / 2),
-          top: spec.photo.top + spec.photo.height - watermark.height - 25,
-        },
+        ...(watermark
+          ? [
+              {
+                input: watermark.data,
+                left: Math.round(spec.photo.left + spec.photo.width / 2 - watermark.width / 2),
+                top: spec.photo.top + spec.photo.height - watermark.height - 25
+              }
+            ]
+          : []),
         {
           input: manifest,
           left: spec.manifest.left,
