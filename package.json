@@ -8,7 +8,7 @@
     "prebuild": "bun scripts/prebuild.js",
     "build": "bun scripts/build.js",
     "postbuild": "bun scripts/postbuild.js",
-    "install": "mkdir -p ~/phew && cp dist/* ~/phew/"
+    "install": "mkdir -p ~/phew && cp -r dist/* ~/phew/"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
