@@ -123,7 +123,6 @@ export type TemplateContext<C extends Config> = {
     aperture: string;
     shutter: string;
     iso: string;
-    formatted: string;
   };
   camera: {
     make: string;
