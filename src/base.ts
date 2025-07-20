@@ -50,6 +50,7 @@ export abstract class Renderer<T extends Config> {
 
     const spec = this.spec();
 
+    console.time('render manifest');
     const context: TemplateContext<Config> = {
       canvas: {
         width: spec.canvas.width,
@@ -77,12 +78,16 @@ export abstract class Renderer<T extends Config> {
     const manifest = await render(`${this.config.layout}-${this.config.variation}`, context);
     // fs.writeFileSync('debug.svg', manifest)
 
+    console.timeEnd('render manifest');
+
+    console.time('resolve watermark');
     // determine photo watermark layout
     const watermarkPath =
       this.config.watermarks && this.config.captionApi
         ? await resolveWatermark(this.config.watermarks, this.config.captionApi, this.photo.thumbnail)
         : this.config.watermarks?.generic?.path;
     const watermark = watermarkPath ? await resize(from(watermarkPath), spec.photo.height * 0.04) : undefined;
+    console.timeEnd('resolve watermark');
 
     console.time('render canvas');
     const canvas =

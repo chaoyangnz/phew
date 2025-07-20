@@ -22,5 +22,5 @@ if (platform === 'darwin') {
   );
 }
 
-const f = platform === 'win32' ? 'phew.bat' : 'phew.sh';
-fs.cpSync(path.join(cwd, `scripts/${f}`), path.join(cwd, `dist/${f}`), { recursive: true });
+const sh = platform === 'win32' ? 'phew.bat' : 'phew.sh';
+fs.cpSync(path.join(cwd, `scripts/${sh}`), path.join(cwd, `dist/${sh}`), { recursive: true });

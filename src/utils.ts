@@ -95,7 +95,6 @@ export const parseExif = (buffer?: Buffer) => {
       aperture,
       shutter,
       iso,
-      formatted: `${focal}mm 𝓕${aperture} ${shutter}s ISO${iso}`
     },
     camera: {
       make: exif.Image.Make || '',
@@ -138,9 +137,9 @@ const brand = (make: string): string => {
     'apple',
     'dji',
     'xmage'
-  ].find((it) => make.toLowerCase().includes(it));
+  ].find((it) => make?.toLowerCase().includes(it));
 
-  return brand || 'empty';
+  return brand || 'nikon';
 };
 
 export const resolveWatermark = async (
@@ -149,11 +148,13 @@ export const resolveWatermark = async (
   thumbnail: string
 ) => {
   // determine photo category
+  console.time('fetch caption');
   const { caption } = await $`curl -X POST -F "image=@${thumbnail}" ${captionApi}`.json().catch((error) => {
     console.log(error);
     return { data: { caption: '' } };
   });
   console.log(thumbnail, caption);
+  console.timeEnd('fetch caption');
   let category = 'generic';
   if (caption) {
     for (const [key, value] of Object.entries(watermarks)) {
