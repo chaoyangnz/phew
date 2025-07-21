@@ -138,6 +138,7 @@ export type ExifData = {
 };
 
 export type ImageHolder = {
+  path: string;
   data: Buffer;
   width: number;
   height: number;

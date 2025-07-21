@@ -33,10 +33,10 @@ export abstract class Renderer<T extends Config> {
   async render(): Promise<Sharp> {
     let watermarkPath = this.config.watermarks?.generic?.path;
     if (this.config.watermarks && this.config.captionApi) {
-      watermarkPath = await resolveWatermark(this.config.watermarks, this.config.captionApi, from(this.photo.data));
+      watermarkPath = await resolveWatermark(this.config.watermarks, this.config.captionApi, this.photo.path);
     }
     if (watermarkPath) {
-      this.watermark = await resize(from(watermarkPath), this.photo.height * 0.04);
+      this.watermark = await resize(watermarkPath, this.photo.height * 0.04);
     }
 
     this.spec = this.layoutSpec();
@@ -44,8 +44,7 @@ export abstract class Renderer<T extends Config> {
     console.time('resolve watermark');
 
     // determine photo watermark layout
-    if (watermarkPath) {
-      this.watermark = await resize(from(watermarkPath), this.photo.height * 0.04);
+    if (this.watermark) {
       this.spec.watermark = {
         width: this.watermark?.width,
         height: this.watermark?.height,

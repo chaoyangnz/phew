@@ -4,7 +4,7 @@ import { compact } from 'lodash';
 // @ts-ignore
 import format from 'date-format';
 import * as fs from 'fs';
-import { exifRead, thumbnail } from './img.ts';
+import { exifRead, from, thumbnail } from './img.ts';
 import { logos } from './assets.ts';
 import { $ } from 'bun';
 import type { Sharp } from 'sharp';
@@ -146,7 +146,7 @@ const brand = (make: string): string => {
 export const resolveWatermark = async (
   watermarks: NonNullable<CommonConfig['watermarks']>,
   captionApi: string,
-  image: Sharp
+  image: string
 ) => {
   const img = await thumbnail(image);
   // determine photo category

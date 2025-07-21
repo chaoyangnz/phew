@@ -18,15 +18,18 @@ export const create = (create: sharp.Create): sharp.Sharp => {
 
 export const exifRead = exif;
 
-export const thumbnail = async (image: Sharp, size = 200) => {
+export const thumbnail = async (path: string, size = 200) => {
+  const image = from(path);
   const { info } = await image.toBuffer({ resolveWithObject: true });
-  const name = uuid();
+  const suffix = last(path.split('.'));
+  const name = `${uuid()}.${suffix}`;
   const thumbnail = `${os.tmpdir()}/${name}`;
   await image.resize(size, Math.round(size * (info.height / info.width))).toFile(thumbnail);
   return thumbnail;
 };
 
-export const resize = async (image: Sharp, resizeTo: number, heightFirst = true) => {
+export const resize = async (path: string, resizeTo: number, heightFirst = true) => {
+  const image = from(path);
   const { width, height } = await image.metadata();
   let w, h;
   if (heightFirst) {
@@ -39,6 +42,7 @@ export const resize = async (image: Sharp, resizeTo: number, heightFirst = true)
 
   const img = image.resize(w, h).ensureAlpha(0.5);
   return {
+    path,
     data: await img.toBuffer(),
     width: w,
     height: h

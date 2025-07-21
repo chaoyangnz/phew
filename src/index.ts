@@ -11,9 +11,8 @@ export const render = async (config: DeepPartial<Config>, file: string, dest?: s
   const image = from(file);
   const metadata = await image.metadata();
   const input = file;
-  // @ts-ignore
-  const output = normalisePath(extractPathVariables(input, config), dest);
   const photo = {
+    path: input,
     data: await image.toBuffer(),
     width: metadata.width!,
     height: metadata.height!
@@ -37,6 +36,8 @@ export const render = async (config: DeepPartial<Config>, file: string, dest?: s
     default:
       console.log('not implemented');
   }
+  // @ts-ignore
+  const output = normalisePath(extractPathVariables(input, config), dest);
   await img?.toFile(output);
   console.log(`Rendered ${config.layout}: ${output}\n\n`);
 };
