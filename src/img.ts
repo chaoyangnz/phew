@@ -1,6 +1,7 @@
 // require('@img/sharp-win32-x64/sharp.node')
 
 import { last } from 'lodash';
+import { v4 as uuid } from 'uuid';
 
 export type { OutputInfo, Metadata, Sharp, Create } from 'sharp';
 import exif from 'exif-reader';
@@ -17,9 +18,9 @@ export const create = (create: sharp.Create): sharp.Sharp => {
 
 export const exifRead = exif;
 
-export const thumbnail = async (path: string, image: Sharp, size = 200) => {
+export const thumbnail = async (image: Sharp, size = 200) => {
   const { info } = await image.toBuffer({ resolveWithObject: true });
-  const name = last(path.split('/'));
+  const name = uuid();
   const thumbnail = `${os.tmpdir()}/${name}`;
   await image.resize(size, Math.round(size * (info.height / info.width))).toFile(thumbnail);
   return thumbnail;
@@ -36,9 +37,9 @@ export const resize = async (image: Sharp, resizeTo: number, heightFirst = true)
     h = Math.round((w * height!) / width!); // keep aspect ratio
   }
 
-  const data = await image.resize(w, h).ensureAlpha(0.5).toBuffer();
+  const img = image.resize(w, h).ensureAlpha(0.5);
   return {
-    data,
+    data: await img.toBuffer(),
     width: w,
     height: h
   };

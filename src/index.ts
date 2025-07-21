@@ -1,19 +1,42 @@
 import { type Config, type DeepPartial } from './types';
 import { CardRenderer } from './card';
 import { ExpoRenderer } from './expo';
+import { from } from './img.ts';
+import { extractPathVariables, normalisePath, parseExif } from './utils.ts';
+import { FrameRenderer } from './frame.ts';
+import type { Sharp } from 'sharp';
 
 export const render = async (config: DeepPartial<Config>, file: string, dest?: string): Promise<void> => {
-  let output = '';
+  // let output = '';
+  const image = from(file);
+  const metadata = await image.metadata();
+  const input = file;
+  // @ts-ignore
+  const output = normalisePath(extractPathVariables(input, config), dest);
+  const photo = {
+    data: await image.toBuffer(),
+    width: metadata.width!,
+    height: metadata.height!
+  };
+  const exif = parseExif(metadata.exif);
+  if (!exif.camera.make) {
+    config.layout = 'frame';
+    config.variation = undefined;
+  }
+  let img: Sharp | undefined;
   switch (config.layout) {
-    // case 'row': output = await new RowRenderer(file, config as never).render(dest); break
     case 'card':
-      output = await new CardRenderer(file, dest, config).render();
+      img = await new CardRenderer(config, photo, exif).render();
       break;
     case 'expo':
-      output = await new ExpoRenderer(file, dest, config).render();
+      img = await new ExpoRenderer(config, photo, exif).render();
+      break;
+    case 'frame':
+      img = await new FrameRenderer(config, photo, exif).render();
       break;
     default:
       console.log('not implemented');
   }
+  await img?.toFile(output);
   console.log(`Rendered ${config.layout}: ${output}\n\n`);
 };

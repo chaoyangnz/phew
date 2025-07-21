@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
-import type { CardConfig, TemplateContext } from '../types';
+import type { CardConfig, ManifestTemplateContext } from '../types';
 
-export default ($: TemplateContext<CardConfig>): ReactNode => {
+export default ($: ManifestTemplateContext<CardConfig>): ReactNode => {
   return (
     <div
       style={{
@@ -16,7 +16,7 @@ export default ($: TemplateContext<CardConfig>): ReactNode => {
       }}
     >
       <p style={{ flex: '1 0 0' }}>
-        <img style={{ width: 180, height: 180, marginLeft: 'auto', marginRight: 'auto' }} src={$.camera.logo} />
+        <img style={{ width: 180, height: 180, marginLeft: 'auto', marginRight: 'auto' }} src={$.exif.camera.logo} />
       </p>
     </div>
   );

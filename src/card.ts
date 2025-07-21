@@ -1,17 +1,15 @@
 import { Renderer } from './base';
-import { type CardConfig, type DeepPartial, type Spec } from './types';
+import { type CardConfig, type DeepPartial, type LayoutSpec } from './types';
 import { defaultsDeep } from 'lodash';
 import { register } from './templates.ts';
 import classic from './templates/card-classic';
 import clean from './templates/card-clean';
-import frame from './templates/card-frame';
 import full from './templates/card-full';
 import logo from './templates/card-logo';
 import param from './templates/card-param';
 
 register('card-classic', classic);
 register('card-clean', clean);
-register('card-frame', frame);
 register('card-full', full);
 register('card-logo', logo);
 register('card-param', param);
@@ -21,8 +19,8 @@ export class CardRenderer extends Renderer<CardConfig> {
     const conf = defaultsDeep(config, {
       layout: 'card',
       variation: 'full',
-      size: 400,
-      border: 60,
+      size: 350,
+      border: 50,
       overlay: false,
       font: {
         color: {
@@ -45,34 +43,31 @@ export class CardRenderer extends Renderer<CardConfig> {
       },
       background: '#fff'
     });
-    if (conf.variation === 'frame') {
-      conf.size = conf.border;
-    }
     return conf;
   }
 
-  spec(): Spec {
+  layoutSpec(): LayoutSpec {
     return {
       canvas: {
-        width: this.photo.info.width + this.config.border * 2,
+        width: this.photo.width + this.config.border * 2,
         height: this.config.overlay
-          ? this.photo.info.height + this.config.border * 2
-          : this.photo.info.height + this.config.border + this.config.size,
+          ? this.photo.height + this.config.border * 2
+          : this.photo.height + this.config.border * 2 + this.config.size,
         background: this.config.background
       },
       photo: {
-        width: this.photo.info.width,
-        height: this.photo.info.height,
+        width: this.photo.width,
+        height: this.photo.height,
         left: this.config.border,
         top: this.config.border
       },
       manifest: {
-        width: this.photo.info.width + this.config.border * 2,
+        width: this.photo.width + this.config.border * 2,
         height: this.config.size,
         left: 0,
         top: this.config.overlay
-          ? this.photo.info.height - this.config.size
-          : this.photo.info.height + this.config.border
+          ? this.photo.height + this.config.border - this.config.size - (this.watermark?.height || 0)
+          : this.photo.height + this.config.border
       }
     };
   }

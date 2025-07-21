@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import type { CardConfig, TemplateContext } from '../types';
+import type { CardConfig, ManifestTemplateContext } from '../types';
 
-export default ($: TemplateContext<CardConfig>): ReactNode => {
-  const textCss = { fontSize: $.font.size.primary, color: $.font.color.primary, fontWeight: 'bold' };
+export default ($: ManifestTemplateContext<CardConfig>): ReactNode => {
+  const textCss = { fontSize: $.config.font.size.primary, color: $.config.font.color.primary, fontWeight: 'bold' };
 
   return (
     <div
@@ -18,16 +18,16 @@ export default ($: TemplateContext<CardConfig>): ReactNode => {
       }}
     >
       <p style={{ flex: '1 0 0', ...textCss }}>
-        <span>{$.camera.model}</span>
+        <span>{$.exif.camera.model}</span>
       </p>
 
       <p style={{ flex: '1 0 0' }}>
-        <img style={{ width: 180, height: 180, marginLeft: 'auto', marginRight: 'auto' }} src={$.camera.logo} />
+        <img style={{ width: 180, height: 180, marginLeft: 'auto', marginRight: 'auto' }} src={$.exif.camera.logo} />
       </p>
 
       <p style={{ flex: '1 0 0', ...textCss }}>
         <span style={{ marginLeft: 'auto' }}>
-          {$.exposure.focal}mm 𝓕{$.exposure.aperture} {$.exposure.shutter}s ISO{$.exposure.iso}
+          {$.exif.exposure.focal}mm 𝓕{$.exif.exposure.aperture} {$.exif.exposure.shutter}s ISO{$.exif.exposure.iso}
         </span>
       </p>
     </div>

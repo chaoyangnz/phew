@@ -1,14 +1,14 @@
 import type { ReactNode } from 'react';
-import type { TemplateContext, ExpoConfig } from '../types';
+import type { ManifestTemplateContext, ExpoConfig } from '../types';
 import { styles } from './styles.ts';
 
-export default ($: TemplateContext<ExpoConfig>): ReactNode => {
+export default ($: ManifestTemplateContext<ExpoConfig>): ReactNode => {
   // text box: F, ISO, S
   const box = (letters: string) => (
     <p
       style={{
         width: 200,
-        border: `solid 3px ${$.font.color.secondary}`,
+        border: `solid 3px ${$.config.font.color.secondary}`,
         borderRadius: 10,
         marginRight: 50,
         fontStyle: 'italic'
@@ -28,9 +28,9 @@ export default ($: TemplateContext<ExpoConfig>): ReactNode => {
         justifyContent: 'space-between',
         alignItems: 'center',
         fontFamily: 'Arial',
-        fontSize: $.font.size.primary,
+        fontSize: $.config.font.size.primary,
         fontWeight: 'bold',
-        color: $.font.color.primary,
+        color: $.config.font.color.primary,
         lineHeight: 2
       }}
     >
@@ -41,7 +41,7 @@ export default ($: TemplateContext<ExpoConfig>): ReactNode => {
             height: 300,
             ...styles.center
           }}
-          src={$.camera.logo}
+          src={$.exif.camera.logo}
         />
       </p>
 
@@ -69,17 +69,17 @@ export default ($: TemplateContext<ExpoConfig>): ReactNode => {
         >
           <p style={{ display: 'flex', ...styles.debug }}>
             {box('F')}
-            <p>{$.exposure.aperture}</p>
+            <p>{$.exif.exposure.aperture}</p>
           </p>
 
           <p style={{ display: 'flex', ...styles.debug }}>
             {box('ISO')}
-            <p>{$.exposure.iso}</p>
+            <p>{$.exif.exposure.iso}</p>
           </p>
 
           <p style={{ display: 'flex', ...styles.debug }}>
             {box('S')}
-            <p>{$.exposure.shutter}</p>
+            <p>{$.exif.exposure.shutter}</p>
           </p>
         </p>
       </p>

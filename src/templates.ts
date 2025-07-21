@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react';
-import { type TemplateContext } from './types';
+import { type ManifestTemplateContext } from './types';
 import satori from 'satori';
 import { fonts } from './assets.ts';
+import { from } from './img.ts';
 
-type TemplateFn = (context: TemplateContext<any>) => ReactNode;
+type TemplateFn = (context: ManifestTemplateContext<any>) => ReactNode;
 export const templates: { [index: string]: TemplateFn } = {};
 
 export const register = (name: string, template: TemplateFn): void => {
@@ -15,15 +16,15 @@ export const register = (name: string, template: TemplateFn): void => {
  * Asynchronously renders a template into an SVG buffer based on the provided template name and context.
  *
  * @param {string} name - The name of the template to render.
- * @param {TemplateContext<any>} context - The context data used for rendering the template, including dimensions and other dynamic properties.
+ * @param {ManifestTemplateContext<any>} context - The context data used for rendering the template, including dimensions and other dynamic properties.
  * @returns {Promise<Buffer>} A promise that resolves to a Buffer containing the rendered SVG content.
  */
-export const render = async (name: string, context: TemplateContext<any>) => {
+export const renderManifest = async (name: string, context: ManifestTemplateContext<any>) => {
   const template = templates[name];
   console.time('render template');
   const svg = await satori(template(context), {
-    width: context.width,
-    height: context.height,
+    width: context.spec.manifest.width,
+    height: context.spec.manifest.height,
     fonts: [
       {
         name: 'Roboto',

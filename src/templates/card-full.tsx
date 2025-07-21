@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
-import type { CardConfig, TemplateContext } from '../types';
+import type { CardConfig, ManifestTemplateContext } from '../types';
 
-export default ($: TemplateContext<CardConfig>): ReactNode => {
-  const primaryCss = { fontSize: $.font.size.primary, color: $.font.color.primary, fontWeight: 'bold' };
-  const secondaryCss = { fontSize: $.font.size.secondary, color: $.font.color.secondary };
+export default ($: ManifestTemplateContext<CardConfig>): ReactNode => {
+  const primaryCss = { fontSize: $.config.font.size.primary, color: $.config.font.color.primary, fontWeight: 'bold' };
+  const secondaryCss = { fontSize: $.config.font.size.secondary, color: $.config.font.color.secondary };
 
   return (
     <div
@@ -20,17 +20,17 @@ export default ($: TemplateContext<CardConfig>): ReactNode => {
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-        <p style={{ ...primaryCss }}>{$.len.model}</p>
-        <p style={{ ...secondaryCss }}>{$.camera.model}</p>
+        <p style={{ ...primaryCss }}>{$.exif.len.model}</p>
+        <p style={{ ...secondaryCss }}>{$.exif.camera.model}</p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <img style={{ width: 180, height: 180, marginRight: 30 }} src={$.camera.logo} />
-        <div style={{ height: 180, borderLeft: `solid 4px ${$.font.color.secondary}`, marginRight: 30 }}></div>
+        <img style={{ width: 180, height: 180, marginRight: 30 }} src={$.exif.camera.logo} />
+        <div style={{ height: 180, borderLeft: `solid 4px ${$.config.font.color.secondary}`, marginRight: 30 }}></div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           <p style={{ ...primaryCss }}>
-            {$.exposure.focal}mm 𝓕{$.exposure.aperture} {$.exposure.shutter}s ISO{$.exposure.iso}
+            {$.exif.exposure.focal}mm 𝓕{$.exif.exposure.aperture} {$.exif.exposure.shutter}s ISO{$.exif.exposure.iso}
           </p>
-          <p style={{ ...secondaryCss }}>{$.datetime}</p>
+          <p style={{ ...secondaryCss }}>{$.exif.datetime}</p>
         </div>
       </div>
     </div>

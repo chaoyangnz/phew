@@ -4,9 +4,10 @@ import { compact } from 'lodash';
 // @ts-ignore
 import format from 'date-format';
 import * as fs from 'fs';
-import { exifRead } from './img.ts';
+import { exifRead, thumbnail } from './img.ts';
 import { logos } from './assets.ts';
 import { $ } from 'bun';
+import type { Sharp } from 'sharp';
 
 export type PathVariables = {
   name: string;
@@ -94,7 +95,7 @@ export const parseExif = (buffer?: Buffer) => {
       focal,
       aperture,
       shutter,
-      iso,
+      iso
     },
     camera: {
       make: exif.Image.Make || '',
@@ -145,15 +146,16 @@ const brand = (make: string): string => {
 export const resolveWatermark = async (
   watermarks: NonNullable<CommonConfig['watermarks']>,
   captionApi: string,
-  thumbnail: string
+  image: Sharp
 ) => {
+  const img = await thumbnail(image);
   // determine photo category
   console.time('fetch caption');
-  const { caption } = await $`curl -X POST -F "image=@${thumbnail}" ${captionApi}`.json().catch((error) => {
+  const { caption } = await $`curl -X POST -F "image=@${img}" ${captionApi}`.json().catch((error) => {
     console.log(error);
     return { data: { caption: '' } };
   });
-  console.log(thumbnail, caption);
+  console.log(img, caption);
   console.timeEnd('fetch caption');
   let category = 'generic';
   if (caption) {

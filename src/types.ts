@@ -1,4 +1,4 @@
-export type Config = ColumnConfig | CardConfig | ExpoConfig;
+export type Config = FrameConfig | CardConfig | ExpoConfig;
 
 export type Color = string;
 
@@ -13,6 +13,9 @@ export type GlobalConfig = {
       path: string;
       keywords: string[];
     };
+  };
+  watermark: {
+    size: number;
   };
   captionApi?: string;
 };
@@ -34,16 +37,16 @@ export type CommonConfig = {
     spread: number;
     blur: number;
   };
+  border: number;
+  background: 'blur' | Color;
   output: {
     quality: number;
   };
-  border: number;
-  background: 'blur' | Color;
 } & GlobalConfig;
 
 export const layouts = {
-  column: ['landscape', 'left-margin', 'right-margin', 'portrait'] as const,
-  card: ['full', 'classic', 'clean', 'param', 'logo', 'frame'] as const,
+  frame: [] as const,
+  card: ['full', 'classic', 'clean', 'param', 'logo'] as const,
   expo: ['around', 'left', 'right', 'bottom'] as const
 };
 
@@ -52,16 +55,14 @@ export const names = Object.entries(layouts)
   .flat();
 
 type Variations = {
-  column: (typeof layouts)['column'][number];
+  frame: (typeof layouts)['frame'][number];
   card: (typeof layouts)['card'][number];
   expo: (typeof layouts)['expo'][number];
 };
 
-export type ColumnConfig = CommonConfig & {
-  layout: 'column';
-  variation: Variations['column'];
-  blur?: boolean;
-  background?: 'blur' | Color;
+export type FrameConfig = CommonConfig & {
+  layout: 'frame';
+  variation: Variations['frame'];
 };
 
 export type CardConfig = CommonConfig & {
@@ -77,7 +78,7 @@ export type ExpoConfig = CommonConfig & {
   size: { start: number; end: number };
 };
 
-export type Spec = {
+export type LayoutSpec = {
   canvas: {
     width: number;
     height: number;
@@ -89,7 +90,19 @@ export type Spec = {
     left: number;
     top: number;
   };
-  manifest: {
+  manifest?: {
+    width: number;
+    height: number;
+    left: number;
+    top: number;
+  };
+  watermark?: {
+    width: number;
+    height: number;
+    left: number;
+    top: number;
+  };
+  shadow?: {
     width: number;
     height: number;
     left: number;
@@ -97,27 +110,13 @@ export type Spec = {
   };
 };
 
-export type TemplateContext<C extends Config> = {
-  canvas: {
-    width: number;
-    height: number;
-  };
-  photo: {
-    width: number;
-    height: number;
-  };
-  width: number;
-  height: number;
-  font: {
-    color: {
-      primary: string;
-      secondary: string;
-    };
-    size: {
-      primary: number;
-      secondary: number;
-    };
-  };
+export type ManifestTemplateContext<C extends Config> = {
+  spec: LayoutSpec;
+  exif: ExifData;
+  config: C;
+};
+
+export type ExifData = {
   exposure: {
     focal: string;
     aperture: string;
@@ -127,6 +126,7 @@ export type TemplateContext<C extends Config> = {
   camera: {
     make: string;
     model: string;
+    // @ts-ignore
     logo: string;
   };
   len: {
@@ -134,7 +134,13 @@ export type TemplateContext<C extends Config> = {
     model: string;
   };
   datetime: string;
-  config: C;
+  software: string;
+};
+
+export type ImageHolder = {
+  data: Buffer;
+  width: number;
+  height: number;
 };
 
 export type DeepPartial<T> = T extends object

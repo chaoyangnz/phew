@@ -2,6 +2,21 @@ import { expect, it, describe } from 'bun:test';
 import { render } from './';
 
 describe('phew test', () => {
+  describe('frame', () => {
+    it.each([['examples/landscape.jpg'], ['examples/square.jpg']])('frame', async (file) => {
+      const dest = 'examples';
+      await render(
+        {
+          layout: 'frame'
+        },
+        file,
+        dest
+      );
+
+      expect(true).toBeTruthy();
+    });
+  });
+
   describe('card', () => {
     it.each([['examples/landscape.jpg'], ['examples/square.jpg']])(
       'card',
@@ -107,15 +122,6 @@ describe('phew test', () => {
           {
             layout: 'card',
             variation: 'param'
-          },
-          file,
-          dest
-        );
-
-        await render(
-          {
-            layout: 'card',
-            variation: 'frame'
           },
           file,
           dest

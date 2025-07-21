@@ -220,8 +220,8 @@ example config:
 |    ![](examples/square-phew-card-logo-blur.jpg)    |
 |               card / logo / overlay                |
 | ![](examples/landscape-phew-card-logo-overlay.jpg) |
-|                    card / frame                    |
-|    ![](examples/landscape-phew-card-frame.jpg)     |
+|                    frame                    |
+|    ![](examples/landscape-phew-frame.jpg)     |
 |                                                    |
 |                                                    |
 |                   expo / around                    |

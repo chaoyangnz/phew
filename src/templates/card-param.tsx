@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import type { CardConfig, TemplateContext } from '../types';
+import type { CardConfig, ManifestTemplateContext } from '../types';
 
-export default ($: TemplateContext<CardConfig>): ReactNode => {
-  const textCss = { fontSize: $.font.size.primary, color: $.font.color.primary, fontWeight: 'bold' };
+export default ($: ManifestTemplateContext<CardConfig>): ReactNode => {
+  const textCss = { fontSize: $.config.font.size.primary, color: $.config.font.color.primary, fontWeight: 'bold' };
 
   return (
     <div
@@ -19,7 +19,7 @@ export default ($: TemplateContext<CardConfig>): ReactNode => {
       }}
     >
       <p style={{ ...textCss }}>
-        {$.exposure.focal}mm 𝓕{$.exposure.aperture} {$.exposure.shutter}s ISO{$.exposure.iso}
+        {$.exif.exposure.focal}mm 𝓕{$.exif.exposure.aperture} {$.exif.exposure.shutter}s ISO{$.exif.exposure.iso}
       </p>
     </div>
   );
