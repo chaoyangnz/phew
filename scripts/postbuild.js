@@ -7,7 +7,10 @@ const platform = os.platform();
 const arch = os.arch();
 
 if (platform === 'win32') {
-  fs.cpSync(path.join(cwd, `node_modules/@img/sharp-${platform}-${arch}/lib`), path.join(cwd, 'dist'), {
+  fs.cpSync(path.join(cwd, `node_modules/@img/sharp-${platform}-${arch}/lib/libvips-42.dll`), path.join(cwd, 'dist/libvips-42.dll'), {
+    recursive: true
+  });
+  fs.cpSync(path.join(cwd, `node_modules/@img/sharp-${platform}-${arch}/lib/libvips-cpp.dll`), path.join(cwd, 'dist/libvips-cpp.dll'), {
     recursive: true
   });
 }
